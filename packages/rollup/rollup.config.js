@@ -3,7 +3,7 @@ import json from "@rollup/plugin-json";
 export default {
     input: "plugin.js",
     output: {
-        file: "plugin.cjs",
+        file: "build/plugin.js",
         format: "commonjs"
     },
     plugins: [json()],

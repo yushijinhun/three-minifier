@@ -1,6 +1,6 @@
 import createNodeResolver from "@rollup/plugin-node-resolve";
 import * as path from "path";
-import * as glconstants from "./glconstants.json";
+import * as glconstants from "../../glconstants.json";
 
 function transformGLConstants(code, id) {
     return code.replace(/_?gl\.([A-Z0-9_]+)/g, (match, p1) => {

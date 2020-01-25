@@ -3,6 +3,7 @@ const http = require("axios").default;
 const astParser = require("acorn").Parser;
 const astWalk = require("acorn-walk");
 const fs = require("fs");
+const path = require("path");
 const url = `https://raw.githubusercontent.com/mrdoob/three.js/${threeRevision}/utils/build/rollup.config.js`;
 
 async function main() {
@@ -22,7 +23,7 @@ async function main() {
     if (constants === null || constants === {}) {
         throw "No constants found";
     }
-    fs.writeFileSync("glconstants.json", JSON.stringify(constants));
+    fs.writeFileSync(path.resolve(__dirname, "glconstants.json"), JSON.stringify(constants));
 }
 
 main();

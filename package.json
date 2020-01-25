@@ -1,10 +1,11 @@
 {
   "name": "@yushijinhun/three-minifier",
-  "version": "0.0.0",
+  "private": true,
   "description": "Enable tree-shaking for THREE.js!",
-  "main": "plugin.cjs",
   "scripts": {
-    "build": "node fetchConstants.js && rollup -c"
+    "build": "npm run build:shared && lerna run build:plugin",
+    "build:shared": "node fetchConstants.js",
+    "prepublishOnly": "npm run build:shared"
   },
   "repository": {
     "type": "git",
@@ -17,17 +18,15 @@
   },
   "homepage": "https://github.com/yushijinhun/three-minifier#readme",
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^7.0.0"
+    "@yushijinhun/three-minifier-rollup": "file:packages/rollup"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^4.0.1",
     "acorn": "^7.1.0",
     "acorn-walk": "^7.0.0",
     "axios": "^0.19.2",
+    "lerna": "^3.20.2",
     "rollup": "^1.29.1"
   },
-  "files": [
-    "plugin.cjs"
-  ],
   "threeRevision": "r112"
 }
