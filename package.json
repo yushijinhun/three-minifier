@@ -1,0 +1,22 @@
+{
+  "name": "@yushijinhun/three-minifier",
+  "version": "0.0.0",
+  "description": "Enable tree-shaking for THREE.js!",
+  "main": "plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yushijinhun/three-minifier.git"
+  },
+  "author": "Haowei Wen <yushijinhun@gmail.com> (https://github.com/yushijinhun)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yushijinhun/three-minifier/issues"
+  },
+  "homepage": "https://github.com/yushijinhun/three-minifier#readme",
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^7.0.0"
+  }
+}
