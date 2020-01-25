@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/yushijinhun/three-minifier#readme",
   "dependencies": {
-    "@yushijinhun/three-minifier-rollup": "file:packages/rollup"
+    "@yushijinhun/three-minifier-rollup": "file:packages/rollup",
+    "@yushijinhun/three-minifier-webpack": "file:packages/webpack"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^4.0.1",
