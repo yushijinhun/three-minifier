@@ -9,6 +9,6 @@ export default {
     plugins: [json()],
     external: [
         "path",
-        "enhanced-resolve"
+        "webpack/lib/Dependency"
     ]
 };

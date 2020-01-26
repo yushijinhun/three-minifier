@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "main": "build/plugin.js",
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^7.0.0"
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "magic-string": "^0.25.6"
   },
   "files": [
     "build/plugin.js"

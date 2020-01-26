@@ -4,30 +4,36 @@ import * as path from "path";
 const threeBundleSuffix = path.sep + path.join("node_modules", "three", "build", "three.module.js");
 const threeSrcDirPart = path.sep + path.join("node_modules", "three", "src") + path.sep;
 
-function transformGLConstants(code, file) {
-    return code.replace(/_?gl\.([A-Z0-9_]+)/g, (match, p1) => {
-        if (p1 in glconstants) {
-            return glconstants[p1];
+function* transformGLConstants(code) {
+    for (const match of code.matchAll(/_?gl\.(?<name>[A-Z0-9_]+)/)) {
+        if (match.groups["name"] in glconstants) {
+            yield {
+                start: match.index,
+                end: match.index + match[0].length,
+                replacement: glconstants[match.groups["name"]].toString()
+            };
         } else {
-            console.warn(`* Unhandled GL Constant: ${p1}`);
-            return match;
+            console.warn(`* Unhandled GL Constant: ${match.groups["name"]}`);
         }
-    });
-};
+    }
+}
 
-function transformGLSL(code, file) {
-    if (/\.glsl.js$/.test(file) === false)
-        return code;
-    return code.replace(/\/\* glsl \*\/\`((.*|\n|\r\n)*)\`/,
-        (match, p1) => JSON.stringify(
-            p1
-                .trim()
-                .replace(/\r/g, '')
-                .replace(/[ \t]*\/\/.*\n/g, '') // remove //
-                .replace(/[ \t]*\/\*[\s\S]*?\*\//g, '') // remove /* */
-                .replace(/\n{2,}/g, '\n') // # \n+ to \n
-        ));
-};
+function* transformGLSL(code) {
+    for (const match of code.matchAll(/(?<comment>\/\* glsl \*\/)(?<outer>\`(?<inner>(?:.*|\n|\r\n)*)\`)/)) {
+        yield {
+            start: match.index + match.groups["comment"].length,
+            end: match.index + match.groups["comment"].length + match.groups["outer"].length,
+            replacement: JSON.stringify(
+                match.groups["inner"]
+                    .trim()
+                    .replace(/\r/g, '')
+                    .replace(/[ \t]*\/\/.*\n/g, '') // remove //
+                    .replace(/[ \t]*\/\*[\s\S]*?\*\//g, '') // remove /* */
+                    .replace(/\n{2,}/g, '\n') // # \n+ to \n
+            )
+        };
+    }
+}
 
 export function parseOptions(options) {
     if (options === undefined)
@@ -36,20 +42,20 @@ export function parseOptions(options) {
     const noCompileGLConstants = options !== null && options.noCompileGLConstants === true;
     const noCompileGLSL = options !== null && options.noCompileGLSL === true;
     return {
-        transformCode(code, file) {
-            if (file.includes(threeSrcDirPart)) {
-                let compiled = code;
+        isThreeSource(file) {
+            return file.includes(threeSrcDirPart);
+        },
+        *transformCode(code, file) {
+            if (this.isThreeSource(file)) {
+                if (/\.glsl.js$/.test(file)) {
+                    if (!noCompileGLSL) {
+                        yield* transformGLSL(code);
+                    }
+                }
                 if (!noCompileGLConstants) {
-                    compiled = transformGLConstants(compiled);
-                }
-                if (!noCompileGLSL) {
-                    compiled = transformGLSL(compiled, file);
-                }
-                if (compiled !== code) {
-                    return compiled;
+                    yield* transformGLConstants(code);
                 }
             }
-            return null;
         },
         transformModule(file) {
             if (file.endsWith(threeBundleSuffix)) {

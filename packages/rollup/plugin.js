@@ -1,5 +1,6 @@
 import createNodeResolver from "@rollup/plugin-node-resolve";
 import { parseOptions } from "../../common.js";
+import { MagicString } from "magic-string";
 
 export const threeMinifier = (options) => {
     const nodeResolver = createNodeResolver();
@@ -7,6 +8,7 @@ export const threeMinifier = (options) => {
 
     return {
         id: "threeMinifier",
+
         resolveId: async (moduleName, file) => {
             const origin = await nodeResolver.resolveId(moduleName, file);
             const transformedId = minifier.transformModule(origin.id);
@@ -23,14 +25,16 @@ export const threeMinifier = (options) => {
                 return transformed;
             }
         },
+
         transform(code, id) {
-            const compiled = minifier.transformCode(code, id);
-            if (compiled !== null) {
-                return {
-                    code: compiled,
-                    map: { mappings: '' }
-                };
+            const s = new MagicString(code);
+            for (const match of minifier.transformCode(code, id)) {
+                s.overwrite(match.start, match.end, match.replacement);
             }
+            return {
+                code: s.toString(),
+                map: s.generateMap()
+            };
         }
     };
 };

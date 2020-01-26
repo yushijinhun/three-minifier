@@ -1,6 +1,24 @@
 import { parseOptions } from "../../common.js";
+import Dependency from "webpack/lib/Dependency";
 
 const pluginName = "ThreeMinifierPlugin";
+
+class ThreeReplaceDependency extends Dependency {
+    constructor(minifier, file) {
+        super();
+        this.minifier = minifier;
+        this.file = file;
+    }
+}
+
+ThreeReplaceDependency.Template = class ThreeReplaceTemplate {
+    apply(dep, source) {
+        const originalSource = source.original().source();
+        for (const match of dep.minifier.transformCode(originalSource, dep.file)) {
+            source.replace(match.start, match.end - 1, match.replacement);
+        }
+    }
+};
 
 export default class ThreeMinifierPlugin {
     constructor(options) {
@@ -42,18 +60,15 @@ export default class ThreeMinifierPlugin {
         };
     }
 
-    _transformModule(module) {
-        const transformedCode = this.minifier.transformCode(module._source._value, module.resource);
-        if (transformedCode !== null) {
-            module._source._value = transformedCode;
-        }
-    }
-
     apply(compiler) {
         compiler.hooks.compilation.tap(pluginName, compilation => {
-            compilation.hooks.optimizeModules.tap(pluginName, modules => {
-                for (const module of modules) {
-                    this._transformModule(module);
+            compilation.dependencyTemplates.set(
+                ThreeReplaceDependency,
+                new ThreeReplaceDependency.Template()
+            );
+            compilation.hooks.buildModule.tap(pluginName, module => {
+                if (this.minifier.isThreeSource(module.resource)) {
+                    module.addDependency(new ThreeReplaceDependency(this.minifier, module.resource));
                 }
             });
         });

@@ -21,6 +21,6 @@
     "url": "https://github.com/yushijinhun/three-minifier/issues"
   },
   "dependencies": {
-    "enhanced-resolve": "^4.1.1"
+    "webpack": "^4.41.5"
   }
 }
