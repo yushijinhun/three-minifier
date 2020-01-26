@@ -1,4 +1,6 @@
 # three-minifier
+![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/yushijinhun/three-minifier?color=yellow&include_prereleases&label=version&sort=semver&style=flat-square)
+
 Minify THREE.js
 
 > **This plugin hasn't been fully tested, and may be UNSTABLE. Use with caution.**
