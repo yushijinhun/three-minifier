@@ -1,7 +1,7 @@
 {
   "name": "@yushijinhun/three-minifier",
   "private": true,
-  "description": "Enable tree-shaking for THREE.js!",
+  "description": "Minify THREE.js",
   "scripts": {
     "build": "npm run build:shared && lerna run build:plugin",
     "build:shared": "node fetchConstants.js",
