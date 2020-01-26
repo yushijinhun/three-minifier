@@ -22,5 +22,8 @@
   },
   "dependencies": {
     "webpack": "^4.41.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

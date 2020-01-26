@@ -23,5 +23,8 @@
   },
   "bugs": {
     "url": "https://github.com/yushijinhun/three-minifier/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

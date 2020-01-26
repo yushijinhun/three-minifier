@@ -9,6 +9,7 @@ export default {
     plugins: [json()],
     external: [
         "@rollup/plugin-node-resolve",
-        "path"
+        "path",
+        "magic-string"
     ]
 };
