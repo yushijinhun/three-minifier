@@ -14,7 +14,7 @@ This plugin helps projects who use THREE.js shrink their size by:
     * [About this](https://github.com/mrdoob/three.js/blob/95fb8e348948679014f4c6afe2aefc4043b16703/utils/build/rollup.config.js#L3-L169).
  * Minify GLSL files.
     * Can be turned off by setting `noCompileGLSL: true`.
-    * [About this](https://github.com/mrdoob/three.js/blob/dev/utils/build/rollup.config.js#L171-L201).
+    * [About this](https://github.com/mrdoob/three.js/blob/95fb8e348948679014f4c6afe2aefc4043b16703/utils/build/rollup.config.js#L171-L201).
 
 ## Usage
 
