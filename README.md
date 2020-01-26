@@ -59,9 +59,9 @@ module.exports = {
 ```
 
 ## Options
-|Name                |Type   |Description                                                                      |
-|--------------------|-------|---------------------------------------------------------------------------------|
-|sideEffects         |boolean|(default: false) If true, do NOT mark `three` as side-effect free.               |
-|noCompileGLConstants|boolean|(default: false) If true, do NOT replace WebGL constants(`gl.XXX`) with literals.|
-|noCompileGLSL       |boolean|(default: false) If true, do NOT minify `.glsl.js` files.                        |
+|Name                |Type   |Description                                                                       |
+|--------------------|-------|----------------------------------------------------------------------------------|
+|sideEffects         |boolean|(default: false) If true, do NOT mark `three` as side-effect free.                |
+|noCompileGLConstants|boolean|(default: false) If true, do NOT replace WebGL constants(`_gl.XXX`) with literals.|
+|noCompileGLSL       |boolean|(default: false) If true, do NOT minify `.glsl.js` files.                         |
 
