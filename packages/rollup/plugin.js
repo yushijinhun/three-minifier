@@ -27,14 +27,16 @@ export const threeMinifier = (options) => {
         },
 
         transform(code, id) {
-            const s = new MagicString(code);
-            for (const match of minifier.transformCode(code, id)) {
-                s.overwrite(match.start, match.end, match.replacement);
+            if (id && minifier.isThreeSource(id)) {
+                const s = new MagicString(code);
+                for (const match of minifier.transformCode(code, id)) {
+                    s.overwrite(match.start, match.end, match.replacement);
+                }
+                return {
+                    code: s.toString(),
+                    map: s.generateMap()
+                };
             }
-            return {
-                code: s.toString(),
-                map: s.generateMap()
-            };
         }
     };
 };

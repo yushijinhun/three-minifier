@@ -29,7 +29,7 @@ export default class ThreeMinifierPlugin {
             resolver.getHook("resolve").tapAsync(pluginName, (request, resolveContext, callback) => {
                 resolver.doResolve(resolver.ensureHook("parsedResolve"), request, null, resolveContext,
                     (error, result) => {
-                        if (result) {
+                        if (result && result.path) {
                             const tranformed = this.minifier.transformModule(result.path);
                             if (tranformed !== null) {
                                 resolver.doResolve(resolver.ensureHook("parsedResolve"),
@@ -51,7 +51,7 @@ export default class ThreeMinifierPlugin {
 
     _clearSideEffects(callback) {
         return (error, result) => {
-            if (result) {
+            if (result && result.path) {
                 if (this.minifier.clearSideEffects(result.path)) {
                     result.descriptionFileData.sideEffects = false;
                 }
@@ -67,7 +67,7 @@ export default class ThreeMinifierPlugin {
                 new ThreeReplaceDependency.Template()
             );
             compilation.hooks.buildModule.tap(pluginName, module => {
-                if (this.minifier.isThreeSource(module.resource)) {
+                if (module.resource && this.minifier.isThreeSource(module.resource)) {
                     module.addDependency(new ThreeReplaceDependency(this.minifier, module.resource));
                 }
             });
