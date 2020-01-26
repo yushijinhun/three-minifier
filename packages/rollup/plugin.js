@@ -1,6 +1,6 @@
 import createNodeResolver from "@rollup/plugin-node-resolve";
 import { parseOptions } from "../../common.js";
-import { MagicString } from "magic-string";
+import MagicString from "magic-string";
 
 export const threeMinifier = (options) => {
     const nodeResolver = createNodeResolver();
