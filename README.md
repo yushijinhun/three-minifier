@@ -94,7 +94,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 ### Will one day I no longer need this plugin?
 In order to make THREE.js tree-shakable, efforts have been made by many people on the upstream project.
-However, THREE.js hasn't come up with a feasible solution so far. See [related issues](#related-issues-repositories) to learn more.
+However, THREE.js hasn't come up with a feasible solution so far. See [related issues](#related-issues--repositories) to learn more.
 
 ## Related issues & repositories
  * [Importing examples jsm modules causes bundlers to bundle three.js source code twice _mrdoob/three.js#17482_](https://github.com/mrdoob/three.js/issues/17482)
