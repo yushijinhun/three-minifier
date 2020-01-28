@@ -66,4 +66,5 @@ module.exports = {
 |sideEffects         |boolean|(default: false) If true, do NOT mark `three` as side-effect free.                |
 |noCompileGLConstants|boolean|(default: false) If true, do NOT replace WebGL constants(`_gl.XXX`) with literals.|
 |noCompileGLSL       |boolean|(default: false) If true, do NOT minify `.glsl.js` files.                         |
+|verbose             |boolean|(default: false) Enable verbose output                                            |
 
