@@ -60,6 +60,17 @@ module.exports = {
 };
 ```
 
+## Does it really work?
+Yes!
+
+Consider the following example:
+```javascript
+import { WebGLRenderer } from "three";
+console.log(WebGLRenderer);
+```
+ * Rollup: 576K => 354K
+ * Webpack: 582K => 354K
+
 ## Options
 |Name                |Type   |Description                                                                       |
 |--------------------|-------|----------------------------------------------------------------------------------|
