@@ -60,7 +60,8 @@ module.exports = {
 };
 ```
 
-## Does it really work?
+## FAQ
+### Does it really work?
 Yes!
 
 Consider the following example:
@@ -70,6 +71,38 @@ console.log(WebGLRenderer);
 ```
  * Rollup: 576K => 354K
  * Webpack: 582K => 354K
+
+### Do I need to modify any existing code?
+No. These are the acceptable approaches to importing THREE.js:
+```javascript
+import { ... } from "three";
+import { ... } from "three/build/three.module.js";
+import { ... } from "three/src/Three";
+import { ... } from "three/src/math/vector3";
+// or something like these
+```
+
+### Does this work with examples jsm modules?
+Yes. This plugin solves [mrdoob/three.js#17482](https://github.com/mrdoob/three.js/issues/17482).
+
+You do not need to do any extra work to use examples jsm modules.
+```javascript
+import { WebGLRenderer } from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// it works well
+```
+
+### Will one day I no longer need this plugin?
+In order to make THREE.js tree-shakable, efforts have been made by many people on the upstream project.
+However, THREE.js hasn't come up with a feasible solution so far. See [related issues](#related-issues-repositories) to learn more.
+
+## Related issues & repositories
+ * [Importing examples jsm modules causes bundlers to bundle three.js source code twice _mrdoob/three.js#17482_](https://github.com/mrdoob/three.js/issues/17482)
+ * [ReactAreaLights do not seem to work in a module bundler _mrdoob/three.js#17220_](https://github.com/mrdoob/three.js/issues/17220)
+ * [Add sideEffects: false flag to package.json to allow tree shaking _mrdoob/three.js#16059_](https://github.com/mrdoob/three.js/issues/16059)
+ * [Allow tree-shaking by adding "sideEffects": false flag _mrdoob/three.js#16317_](https://github.com/mrdoob/three.js/pull/16317)
+ * [Enable tree-shaking both for the main and examples files _mrdoob/three.js#16301_](https://github.com/mrdoob/three.js/pull/16301)
+ * [vxna/optimize-three-webpack-plugin](https://github.com/vxna/optimize-three-webpack-plugin)
 
 ## Options
 |Name                |Type   |Description                                                                       |
