@@ -103,6 +103,7 @@ However, THREE.js hasn't come up with a feasible solution so far. See [related i
  * [Allow tree-shaking by adding "sideEffects": false flag _mrdoob/three.js#16317_](https://github.com/mrdoob/three.js/pull/16317)
  * [Enable tree-shaking both for the main and examples files _mrdoob/three.js#16301_](https://github.com/mrdoob/three.js/pull/16301)
  * [vxna/optimize-three-webpack-plugin](https://github.com/vxna/optimize-three-webpack-plugin)
+ * [https://github.com/mattdesl/threejs-tree-shake](https://github.com/mattdesl/threejs-tree-shake)
 
 ## Options
 |Name                |Type   |Description                                                                       |
