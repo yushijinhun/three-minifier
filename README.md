@@ -102,6 +102,7 @@ However, THREE.js hasn't come up with a feasible solution so far. See [related i
  * [Add sideEffects: false flag to package.json to allow tree shaking _mrdoob/three.js#16059_](https://github.com/mrdoob/three.js/issues/16059)
  * [Allow tree-shaking by adding "sideEffects": false flag _mrdoob/three.js#16317_](https://github.com/mrdoob/three.js/pull/16317)
  * [Enable tree-shaking both for the main and examples files _mrdoob/three.js#16301_](https://github.com/mrdoob/three.js/pull/16301)
+ * [Support esm on node with conditional exports _mrdoob/three.js#18498_](https://github.com/mrdoob/three.js/pull/18498)
  * [vxna/optimize-three-webpack-plugin](https://github.com/vxna/optimize-three-webpack-plugin)
  * [mattdesl/threejs-tree-shake](https://github.com/mattdesl/threejs-tree-shake)
 
