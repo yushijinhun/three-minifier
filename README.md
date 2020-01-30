@@ -32,11 +32,11 @@ import { threeMinifier } from "@yushijinhun/three-minifier-rollup";
 export default {
     ...
     plugins: [
-        threeMinifier({/* options */}), // <=== Add plugin
+        threeMinifier({/* options */}), // <=== Add plugin on the FIRST line
+        ...
     ]
 };
 ```
-> If you are using **@rollup/plugin-node-resolve**, make sure to put `threeMinifier()` before it.
 
 ### Webpack
 ```
@@ -50,11 +50,13 @@ const threeMinifier = new ThreeMinifierResolver({/* options */});
 module.exports = {
     ...
     plugins: [
-        threeMinifier // <=== (1) Add plugin
+        threeMinifier, // <=== (1) Add plugin on the FIRST line
+        ...
     ],
     resolve: {
         plugins: [
-            threeMinifier.resolver // <=== (2) Add resolver
+            threeMinifier.resolver, // <=== (2) Add resolver on the FIRST line
+            ...
         ]
     }
 };
