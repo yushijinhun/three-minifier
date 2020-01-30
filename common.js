@@ -11,7 +11,7 @@ export function parseOptions(options) {
     const verbose = options !== null && options.verbose === true;
 
     const threeBundleSuffix = path.sep + path.join("node_modules", "three", "build", "three.module.js");
-    const threeSrcDirPart = path.sep + path.join("node_modules", "three", "src") + path.sep;
+    const threeDirPart = path.sep + path.join("node_modules", "three") + path.sep;
 
     function* transformGLConstants(code) {
         for (const match of code.matchAll(/_?gl\.(?<name>[A-Z0-9_]+)/)) {
@@ -55,7 +55,7 @@ export function parseOptions(options) {
 
     return {
         isThreeSource(file) {
-            return file.includes(threeSrcDirPart);
+            return file.includes(threeDirPart);
         },
         *transformCode(code, file) {
             if (this.isThreeSource(file)) {
@@ -83,7 +83,7 @@ export function parseOptions(options) {
             }
         },
         clearSideEffects(file) {
-            if (sideEffects === false && (file.endsWith(threeBundleSuffix) || file.includes(threeSrcDirPart))) {
+            if (sideEffects === false && (file.endsWith(threeBundleSuffix) || file.includes(threeDirPart))) {
                 if (verbose) {
                     console.log(`three-minifier: Clear side-effects of ${file}`);
                 }
