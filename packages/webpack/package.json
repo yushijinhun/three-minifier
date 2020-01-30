@@ -1,6 +1,6 @@
 {
   "name": "@yushijinhun/three-minifier-webpack",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "build/plugin.js",
   "files": [
     "build/plugin.js"
