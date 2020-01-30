@@ -11,18 +11,20 @@ export const threeMinifier = (options) => {
 
         resolveId: async (moduleName, file) => {
             const origin = await nodeResolver.resolveId(moduleName, file);
-            const transformedId = minifier.transformModule(origin.id);
-            if (transformedId === null) {
-                if (minifier.clearSideEffects(origin.id)) {
-                    origin.moduleSideEffects = false;
-                    return origin;
+            if (origin) {
+                const transformedId = minifier.transformModule(origin.id);
+                if (transformedId === null) {
+                    if (minifier.clearSideEffects(origin.id)) {
+                        origin.moduleSideEffects = false;
+                        return origin;
+                    }
+                } else {
+                    const transformed = await nodeResolver.resolveId(transformedId);
+                    if (minifier.clearSideEffects(transformed.id)) {
+                        transformed.moduleSideEffects = false;
+                    }
+                    return transformed;
                 }
-            } else {
-                const transformed = await nodeResolver.resolveId(transformedId);
-                if (minifier.clearSideEffects(transformed.id)) {
-                    transformed.moduleSideEffects = false;
-                }
-                return transformed;
             }
         },
 
