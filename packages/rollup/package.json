@@ -2,12 +2,14 @@
   "name": "@yushijinhun/three-minifier-rollup",
   "version": "0.1.4",
   "main": "build/plugin.js",
+  "types": "plugin.d.ts",
   "dependencies": {
     "@rollup/plugin-node-resolve": "^7.0.0",
     "magic-string": "^0.25.6"
   },
   "files": [
-    "build/plugin.js"
+    "build/plugin.js",
+    "plugin.d.ts"
   ],
   "scripts": {
     "build:plugin": "rollup -c",

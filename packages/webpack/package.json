@@ -2,8 +2,10 @@
   "name": "@yushijinhun/three-minifier-webpack",
   "version": "0.1.4",
   "main": "build/plugin.js",
+  "types": "plugin.d.ts",
   "files": [
-    "build/plugin.js"
+    "build/plugin.js",
+    "plugin.d.ts"
   ],
   "scripts": {
     "build:plugin": "rollup -c",
