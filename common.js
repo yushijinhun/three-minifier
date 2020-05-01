@@ -14,7 +14,7 @@ export function parseOptions(options) {
     const threeDirPart = path.sep + path.join("node_modules", "three") + path.sep;
 
     function* transformGLConstants(code) {
-        for (const match of code.matchAll(/_?gl\.(?<name>[A-Z0-9_]+)/)) {
+        for (const match of code.matchAll(/_?gl\.(?<name>[A-Z0-9_]+)/g)) {
             if (match.groups["name"] in glconstants) {
                 const value = glconstants[match.groups["name"]].toString();
                 if (verbose) {
@@ -32,7 +32,7 @@ export function parseOptions(options) {
     }
 
     function* transformGLSL(code) {
-        for (const match of code.matchAll(/(?<comment>\/\* glsl \*\/)(?<outer>\`(?<inner>(?:.*|\n|\r\n)*)\`)/)) {
+        for (const match of code.matchAll(/(?<comment>\/\* glsl \*\/)(?<outer>\`(?<inner>(?:.*|\n|\r\n)*)\`)/g)) {
             const startIndex = match.index + match.groups["comment"].length;
             const endIndex = startIndex + match.groups["outer"].length;
             const text = match.groups["inner"];
