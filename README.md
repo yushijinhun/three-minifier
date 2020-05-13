@@ -4,8 +4,6 @@
 
 Minify THREE.js
 
-> **This plugin hasn't been fully tested, and may be UNSTABLE. Use with caution.**
-
 ## Introduction
 This plugin helps projects who use THREE.js shrink their size by:
  * Resolve `three` / `three/build/three.module.js` to `three/src/Three.js`.
@@ -20,6 +18,10 @@ This plugin helps projects who use THREE.js shrink their size by:
     * [About this](https://github.com/mrdoob/three.js/blob/95fb8e348948679014f4c6afe2aefc4043b16703/utils/build/rollup.config.js#L171-L201).
 
 ## Usage
+
+### :warning: Before continuing... :warning:
+ * This plugin hasn't been fully tested, and may be **unstable**. Use with caution.  
+ * Node.js **>= v12.0** is required.
 
 ### Rollup
 ```
