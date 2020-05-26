@@ -20,19 +20,72 @@ jobs:
 
     - name: "[packages/rollup] npm pack"
       working-directory: packages/rollup
-      run: npm pack
+      run: |
+        tarball_filename=$(npm pack)
+        mv $tarball_filename rollup-plugin.tgz
     - name: "[packages/webpack] npm pack"
       working-directory: packages/webpack
-      run: npm pack
+      run: |
+        tarball_filename=$(npm pack)
+        mv $tarball_filename webpack-plugin.tgz
 
     - name: "[packages/rollup] upload artifact"
       uses: actions/upload-artifact@v2
       with:
         name: rollup-plugin
-        path: packages/rollup/*.tgz
+        path: packages/rollup/rollup-plugin.tgz
 
     - name: "[packages/webpack] upload artifact"
       uses: actions/upload-artifact@v2
       with:
         name: webpack-plugin
-        path: packages/webpack/*.tgz
+        path: packages/webpack/webpack-plugin.tgz
+
+  test-rollup:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: rollup-plugin
+          path: test
+      - name: "npm install"
+        working-directory: test/rollup
+        run: npm install
+
+      - name: "[control group] bundle"
+        working-directory: test/rollup
+        run: npx rollup -c rollup.control.js
+      - name: "[experimental group] bundle"
+        working-directory: test/rollup
+        run: npx rollup -c rollup.experimental.js
+
+      - name: "report"
+        working-directory: test/rollup
+        run: ls -lh dist_control dist_experimental
+
+  test-webpack:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: webpack-plugin
+          path: test
+      - name: "npm install"
+        working-directory: test/webpack
+        run: npm install
+
+      - name: "[control group] bundle"
+        working-directory: test/webpack
+        run: npx webpack --config webpack.control.js
+      - name: "[experimental group] bundle"
+        working-directory: test/webpack
+        run: npx webpack --config webpack.experimental.js
+
+      - name: "report"
+        working-directory: test/webpack
+        run: ls -lh dist_control dist_experimental
+
