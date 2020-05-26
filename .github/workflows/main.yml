@@ -1,0 +1,38 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: "[root] npm install"
+      run: npm install
+    - name: "[packages/rollup] npm install"
+      working-directory: packages/rollup
+      run: npm install
+    - name: "[packages/webpack] npm install"
+      working-directory: packages/webpack
+      run: npm install
+
+    - name: "npm build"
+      run: npm run build
+
+    - name: "[packages/rollup] npm pack"
+      working-directory: packages/rollup
+      run: npm pack
+    - name: "[packages/webpack] npm pack"
+      working-directory: packages/webpack
+      run: npm pack
+
+    - name: "[packages/rollup] upload artifact"
+      uses: actions/upload-artifact@v2
+      with:
+        name: rollup-plugin
+        path: packages/rollup/*.tgz
+
+    - name: "[packages/webpack] upload artifact"
+      uses: actions/upload-artifact@v2
+      with:
+        name: webpack-plugin
+        path: packages/webpack/*.tgz
