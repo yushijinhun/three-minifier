@@ -1,6 +1,7 @@
 # three-minifier
-![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/yushijinhun/three-minifier?color=yellow&include_prereleases&label=version&sort=semver&style=flat-square)
+[![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/yushijinhun/three-minifier?color=yellow&include_prereleases&label=version&sort=semver&style=flat-square)](https://github.com/yushijinhun/three-minifier/releases)
 [![Requires node version >= v12.0](https://img.shields.io/badge/requires-node%20≥%20v12.0-brightgreen?style=flat-square&logo=node.js&logoColor=brightgreen)](https://github.com/yushijinhun/three-minifier/issues/3)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yushijinhun/three-minifier/CI?logo=github&style=flat-square)](https://github.com/yushijinhun/three-minifier/actions?query=workflow%3ACI)
 
 Minify THREE.js
 
