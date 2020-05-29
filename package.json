@@ -22,12 +22,12 @@
     "@yushijinhun/three-minifier-webpack": "file:packages/webpack"
   },
   "devDependencies": {
-    "@rollup/plugin-json": "^4.0.1",
-    "acorn": "^7.1.0",
-    "acorn-walk": "^7.0.0",
+    "@rollup/plugin-json": "^4.0.3",
+    "acorn": "^7.2.0",
+    "acorn-walk": "^7.1.1",
     "axios": "^0.19.2",
-    "lerna": "^3.20.2",
-    "rollup": "^1.29.1"
+    "lerna": "^3.22.0",
+    "rollup": "^2.11.2"
   },
-  "threeRevision": "r116"
+  "threeRevision": "r117"
 }

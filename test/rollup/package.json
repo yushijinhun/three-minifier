@@ -3,7 +3,7 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "three": "^0.116.1"
+    "three": "^0.117.1"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^8.0.0",
