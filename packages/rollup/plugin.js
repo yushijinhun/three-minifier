@@ -9,6 +9,14 @@ export const threeMinifier = (options) => {
     return {
         id: "threeMinifier",
 
+        buildStart(options) {
+            nodeResolver.buildStart(options);
+        },
+
+        generateBundle() {
+            nodeResolver.generateBundle();
+        },
+
         resolveId: async (moduleName, file) => {
             const origin = await nodeResolver.resolveId(moduleName, file);
             if (origin) {
