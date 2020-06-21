@@ -1,5 +1,7 @@
 const glconstants = require("./glconstants.json");
 const path = require("path");
+const astParser = require("acorn").Parser;
+const astWalk = require("acorn-walk");
 
 exports.parseOptions = function (options) {
     if (options === undefined)
@@ -13,22 +15,36 @@ exports.parseOptions = function (options) {
     const threeBundleSuffix = path.sep + path.join("node_modules", "three", "build", "three.module.js");
     const threeDirPart = path.sep + path.join("node_modules", "three") + path.sep;
 
-    function* transformGLConstants(code) {
-        for (const match of code.matchAll(/_?gl\.(?<name>[A-Z0-9_]+)/g)) {
-            if (match.groups["name"] in glconstants) {
-                const value = glconstants[match.groups["name"]].toString();
-                if (verbose) {
-                    console.info(`three-minifier: Replace ${match[0]} with ${value}`);
+    function transformGLConstants(code) {
+        const replacements = [];
+        const ast = astParser.parse(code, { sourceType: "module" });
+        astWalk.simple(ast, {
+            MemberExpression(node) {
+                if (
+                    node.object.type === "Identifier" &&
+                    (node.object.name === "gl" || node.object.name === "_gl") &&
+                    node.property.type === "Identifier"
+                ) {
+                    const name = node.property.name;
+                    if (/^[A-Z0-9_]+$/.test(name)) {
+                        if (name in glconstants) {
+                            const value = glconstants[name].toString();
+                            if (verbose) {
+                                console.info(`three-minifier: Replace ${code.substring(node.start, node.end)} with ${value}`);
+                            }
+                            replacements.push({
+                                start: node.start,
+                                end: node.end,
+                                replacement: value
+                            });
+                        } else {
+                            console.warn(`three-minifier: Unhandled GL constant: ${name}`);
+                        }
+                    }
                 }
-                yield {
-                    start: match.index,
-                    end: match.index + match[0].length,
-                    replacement: value
-                };
-            } else {
-                console.warn(`three-minifier: Unhandled GL constant: ${match.groups["name"]}`);
             }
-        }
+        });
+        return replacements;
     }
 
     function* transformGLSL(code) {
@@ -68,7 +84,9 @@ exports.parseOptions = function (options) {
                     }
                 }
                 if (!noCompileGLConstants) {
-                    yield* transformGLConstants(code);
+                    for (const replacement of transformGLConstants(code)) {
+                        yield replacement;
+                    }
                 }
             }
         },

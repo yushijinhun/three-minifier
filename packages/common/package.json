@@ -20,9 +20,11 @@
   "bugs": {
     "url": "https://github.com/yushijinhun/three-minifier/issues"
   },
-  "devDependencies": {
+  "dependencies": {
     "acorn": "^7.2.0",
-    "acorn-walk": "^7.1.1",
+    "acorn-walk": "^7.1.1"
+  },
+  "devDependencies": {
     "axios": "^0.19.2"
   },
   "publishConfig": {
