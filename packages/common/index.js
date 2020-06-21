@@ -1,7 +1,7 @@
-import glconstants from "./glconstants.json";
-import * as path from "path";
+const glconstants = require("./glconstants.json");
+const path = require("path");
 
-export function parseOptions(options) {
+exports.parseOptions = function (options) {
     if (options === undefined)
         options = null;
 

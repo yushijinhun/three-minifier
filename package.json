@@ -2,11 +2,6 @@
   "name": "@yushijinhun/three-minifier",
   "private": true,
   "description": "Minify THREE.js",
-  "scripts": {
-    "build": "npm run build:shared && lerna run build:plugin",
-    "build:shared": "node fetchConstants.js",
-    "prepublishOnly": "npm run build:shared"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yushijinhun/three-minifier.git"
@@ -17,17 +12,7 @@
     "url": "https://github.com/yushijinhun/three-minifier/issues"
   },
   "homepage": "https://github.com/yushijinhun/three-minifier#readme",
-  "dependencies": {
-    "@yushijinhun/three-minifier-rollup": "file:packages/rollup",
-    "@yushijinhun/three-minifier-webpack": "file:packages/webpack"
-  },
   "devDependencies": {
-    "@rollup/plugin-json": "^4.0.3",
-    "acorn": "^7.2.0",
-    "acorn-walk": "^7.1.1",
-    "axios": "^0.19.2",
-    "lerna": "^3.22.0",
-    "rollup": "^2.11.2"
-  },
-  "threeRevision": "r117"
+    "lerna": "^3.22.0"
+  }
 }

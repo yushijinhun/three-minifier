@@ -49,7 +49,8 @@ npm install --save-dev @yushijinhun/three-minifier-webpack
 
 `webpack.config.js`:
 ```javascript
-const threeMinifier = new ThreeMinifierResolver({/* options */});
+const ThreeMinifierPlugin = require("@yushijinhun/three-minifier-webpack");
+const threeMinifier = new ThreeMinifierPlugin({/* options */});
 ...
 module.exports = {
     ...

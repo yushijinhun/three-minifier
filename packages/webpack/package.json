@@ -1,16 +1,12 @@
 {
   "name": "@yushijinhun/three-minifier-webpack",
   "version": "0.1.7",
-  "main": "build/plugin.js",
+  "main": "plugin.js",
   "types": "plugin.d.ts",
   "files": [
-    "build/plugin.js",
+    "plugin.js",
     "plugin.d.ts"
   ],
-  "scripts": {
-    "build:plugin": "rollup -c",
-    "prepublishOnly": "npm run build:plugin"
-  },
   "license": "MIT",
   "description": "Minify THREE.js",
   "homepage": "https://github.com/yushijinhun/three-minifier#readme",
@@ -23,7 +19,8 @@
     "url": "https://github.com/yushijinhun/three-minifier/issues"
   },
   "dependencies": {
-    "webpack": "^4.43.0"
+    "webpack": "^4.43.0",
+    "@yushijinhun/three-minifier-common": "^0.1.7"
   },
   "publishConfig": {
     "access": "public"

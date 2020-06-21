@@ -1,6 +1,6 @@
 const path = require('path');
-const ThreeMinifierResolver = require('@yushijinhun/three-minifier-webpack');
-const threeMinifier = new ThreeMinifierResolver();
+const ThreeMinifierPlugin = require('@yushijinhun/three-minifier-webpack');
+const threeMinifier = new ThreeMinifierPlugin();
 
 module.exports = {
   entry: './index.js',

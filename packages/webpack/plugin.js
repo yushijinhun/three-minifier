@@ -1,5 +1,5 @@
-import { parseOptions } from "../../common.js";
-import Dependency from "webpack/lib/Dependency";
+const parseOptions = require("@yushijinhun/three-minifier-common").parseOptions;
+const Dependency = require("webpack/lib/Dependency");
 
 const pluginName = "ThreeMinifierPlugin";
 
@@ -20,7 +20,7 @@ ThreeReplaceDependency.Template = class ThreeReplaceTemplate {
     }
 };
 
-export default class ThreeMinifierPlugin {
+class ThreeMinifierPlugin {
     constructor(options) {
         this.minifier = parseOptions(options);
 
@@ -74,3 +74,5 @@ export default class ThreeMinifierPlugin {
         });
     }
 };
+
+module.exports = ThreeMinifierPlugin;

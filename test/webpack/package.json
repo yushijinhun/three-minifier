@@ -3,7 +3,8 @@
   "private": true,
   "main": "index.js",
   "devDependencies": {
-    "@yushijinhun/three-minifier-webpack": "file:../webpack-plugin.tgz",
+    "@yushijinhun/three-minifier-webpack": "file:../webpack.tgz",
+    "@yushijinhun/three-minifier-common": "file:../common.tgz",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {

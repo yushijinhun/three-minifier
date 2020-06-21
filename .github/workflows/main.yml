@@ -6,40 +6,39 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: "[root] npm install"
-      run: npm install
-    - name: "[packages/rollup] npm install"
-      working-directory: packages/rollup
-      run: npm install
-    - name: "[packages/webpack] npm install"
-      working-directory: packages/webpack
-      run: npm install
+    - name: "prepare"
+      run: |
+        mkdir -p ~/build_outputs
+        npm install
+        npx lerna bootstrap
+        npx lerna link
 
-    - name: "npm build"
-      run: npm run build
+    - name: "[packages/common] build"
+      working-directory: packages/common
+      run: |
+        npm install
+        npm pack
+        cp *.tgz ~/build_outputs/common.tgz
 
-    - name: "[packages/rollup] npm pack"
+    - name: "[packages/rollup] build"
       working-directory: packages/rollup
       run: |
-        tarball_filename=$(npm pack)
-        mv $tarball_filename rollup-plugin.tgz
-    - name: "[packages/webpack] npm pack"
+        npm install
+        npm pack
+        cp *.tgz ~/build_outputs/rollup.tgz
+
+    - name: "[packages/webpack] build"
       working-directory: packages/webpack
       run: |
-        tarball_filename=$(npm pack)
-        mv $tarball_filename webpack-plugin.tgz
+        npm install
+        npm pack
+        cp *.tgz ~/build_outputs/webpack.tgz
 
-    - name: "[packages/rollup] upload artifact"
+    - name: "upload artifacts"
       uses: actions/upload-artifact@v2
       with:
-        name: rollup-plugin
-        path: packages/rollup/rollup-plugin.tgz
-
-    - name: "[packages/webpack] upload artifact"
-      uses: actions/upload-artifact@v2
-      with:
-        name: webpack-plugin
-        path: packages/webpack/webpack-plugin.tgz
+        name: build_outputs
+        path: ~/build_outputs/*
 
   test-rollup:
     needs: [build]
@@ -48,7 +47,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: rollup-plugin
+          name: build_outputs
           path: test
       - name: "npm install"
         working-directory: test/rollup
@@ -72,7 +71,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: webpack-plugin
+          name: build_outputs
           path: test
       - name: "npm install"
         working-directory: test/webpack

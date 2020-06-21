@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const threeRevision = require("./package.json").threeRevision;
 const http = require("axios").default;
 const astParser = require("acorn").Parser;
@@ -23,6 +25,7 @@ async function main() {
     if (constants === null || constants === {}) {
         throw "No constants found";
     }
+    console.log("GL constants have been written to glconstants.json");
     fs.writeFileSync(path.resolve(__dirname, "glconstants.json"), JSON.stringify(constants));
 }
 

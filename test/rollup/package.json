@@ -7,7 +7,8 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^8.0.0",
-    "@yushijinhun/three-minifier-rollup": "file:../rollup-plugin.tgz",
+    "@yushijinhun/three-minifier-rollup": "file:../rollup.tgz",
+    "@yushijinhun/three-minifier-common": "file:../common.tgz",
     "rollup": "^2.11.2",
     "rollup-plugin-terser": "^6.1.0"
   }
