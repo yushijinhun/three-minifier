@@ -2,6 +2,7 @@ const glconstants = require("./glconstants.json");
 const path = require("path");
 const astParser = require("acorn").Parser;
 const astWalk = require("acorn-walk");
+const glslTokenizer = require("glsl-tokenizer");
 
 exports.parseOptions = function (options) {
     if (options === undefined)
@@ -72,15 +73,71 @@ exports.parseOptions = function (options) {
         }
 
         minifyGLSL(source) {
-            const minifiedSource = source.trim()
-                .replace(/\r/g, '')
-                .replace(/[ \t]*\/\/.*\n/g, '') // remove //
-                .replace(/[ \t]*\/\*[\s\S]*?\*\//g, '') // remove /* */
-                .replace(/\n{2,}/g, '\n'); // # \n+ to \n
+            const output = [];
+            let prevType = null; // type of last non-whitespace token (not block-comment, line-comment or whitespace)
+            let pendingWhitespace = false; // have we skipped any whitespace token since last non-whitespace token?
+            for (const token of glslTokenizer(source)) {
+                if (token.type === "eof") {
+                    break;
+                } else if (token.type === "block-comment" || token.type === "line-comment" || token.type === "whitespace") {
+                    pendingWhitespace = true;
+                } else {
+                    if (token.type === "operator") {
+                        output.push(token.data);
+                    } else if (token.type === "preprocessor") {
+                        if (!(
+                            prevType == null ||
+                            prevType == "preprocessor"
+                        )) {
+                            output.push("\n")
+                        }
+                        output.push(this.minifyGLSLPreprocessor(token.data));
+                        output.push("\n")
+                    } else {
+                        if (pendingWhitespace && !(
+                            prevType == null ||
+                            prevType == "preprocessor" ||
+                            prevType == "operator"
+                        )) {
+                            output.push(" ");
+                        }
+                        output.push(token.data);
+                    }
+                    pendingWhitespace = false;
+                    prevType = token.type;
+                }
+            }
+            const minifiedSource = output.join("").trim();
+
             if (verbose) {
                 console.info(`three-minifier: GLSL source: len ${source.length} => ${minifiedSource.length}`);
             }
             return minifiedSource;
+        }
+
+        minifyGLSLPreprocessor(/**@type {string}*/source) {
+            source = source
+                .replace(/\/\/.*$/, "")
+                .replace(/\/\*.*?\*\//g, "")
+                .trim();
+
+            const preprocessor = /^#\w+/.exec(source)[0];
+            switch (preprocessor) {
+                case "#include":
+                    return source.replace(/^(#include)\s*(<|")\s*(.+)\s*(>|")$/g, "$1 $2$3$4");
+
+                case "#define":
+                case "#if":
+                case "#elif":
+                    return preprocessor + " " +
+                        source.substring(preprocessor.length).trim()
+                            .replace(/(?<=\W)\s+/g, "")
+                            .replace(/\s+(?=\W)/g, "")
+                            .replace(/\s+/g, " ");
+
+                default:
+                    return source;
+            }
         }
     }
 
