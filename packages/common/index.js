@@ -36,7 +36,7 @@ exports.parseOptions = function (options) {
                             if (name in glconstants) {
                                 const value = glconstants[name].toString();
                                 if (verbose) {
-                                    console.info(`three-minifier: Replace ${this.code.substring(node.start, node.end)} with ${value}`);
+                                    console.info(`three-minifier: GL constant: ${this.code.substring(node.start, node.end)} => ${value}`);
                                 }
                                 this.replacements.push({
                                     start: node.start,
@@ -53,25 +53,34 @@ exports.parseOptions = function (options) {
         }
 
         transformGLSL() {
-            for (const match of this.code.matchAll(/(?<comment>\/\* glsl \*\/)(?<outer>\`(?<inner>(?:.*|\n|\r\n)*)\`)/g)) {
-                const startIndex = match.index + match.groups["comment"].length;
-                const endIndex = startIndex + match.groups["outer"].length;
-                const text = match.groups["inner"];
-                const minifiedText = text.trim()
-                    .replace(/\r/g, '')
-                    .replace(/[ \t]*\/\/.*\n/g, '') // remove //
-                    .replace(/[ \t]*\/\*[\s\S]*?\*\//g, '') // remove /* */
-                    .replace(/\n{2,}/g, '\n'); // # \n+ to \n
-
-                if (verbose) {
-                    console.info(`three-minifier: string length ${text.length} => ${minifiedText.length}`);
+            astWalk.simple(this.ast, {
+                TemplateLiteral: node => {
+                    if (
+                        node.expressions.length === 0 &&
+                        node.quasis.length === 1 &&
+                        /\/\*\s*glsl\s*\*\/\s*$/.test(this.code.substring(0, node.start))
+                    ) {
+                        const source = node.quasis[0].value.cooked;
+                        this.replacements.push({
+                            start: node.start,
+                            end: node.end,
+                            replacement: JSON.stringify(this.minifyGLSL(source))
+                        });
+                    }
                 }
-                this.replacements.push({
-                    start: startIndex,
-                    end: endIndex,
-                    replacement: JSON.stringify(minifiedText)
-                });
+            });
+        }
+
+        minifyGLSL(source) {
+            const minifiedSource = source.trim()
+                .replace(/\r/g, '')
+                .replace(/[ \t]*\/\/.*\n/g, '') // remove //
+                .replace(/[ \t]*\/\*[\s\S]*?\*\//g, '') // remove /* */
+                .replace(/\n{2,}/g, '\n'); // # \n+ to \n
+            if (verbose) {
+                console.info(`three-minifier: GLSL source: len ${source.length} => ${minifiedSource.length}`);
             }
+            return minifiedSource;
         }
     }
 
@@ -85,7 +94,7 @@ exports.parseOptions = function (options) {
                     console.log(`three-minifier: Processing ${file}`);
                 }
                 const source = new SourceFile(code, file);
-                if (/\.glsl.js$/.test(file) && !noCompileGLSL) {
+                if (!noCompileGLSL) {
                     source.transformGLSL();
                 }
                 if (!noCompileGLConstants) {
@@ -99,7 +108,7 @@ exports.parseOptions = function (options) {
         transformModule(file) {
             if (file.endsWith(threeBundleSuffix)) {
                 if (verbose) {
-                    console.log(`three-minifier: Redirect module ${file}`);
+                    console.log(`three-minifier: Redirect module: ${file}`);
                 }
                 return path.resolve(file, "..", "..", "src", "Three.js");
             } else {
@@ -109,7 +118,7 @@ exports.parseOptions = function (options) {
         clearSideEffects(file) {
             if (sideEffects === false && (file.endsWith(threeBundleSuffix) || file.includes(threeDirPart))) {
                 if (verbose) {
-                    console.log(`three-minifier: Clear side-effects of ${file}`);
+                    console.log(`three-minifier: Clear side-effects: ${file}`);
                 }
                 return true;
             } else {
