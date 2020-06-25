@@ -1,90 +1,25 @@
 name: CI
 on: [push, pull_request]
 jobs:
-  build:
+  build_test:
+    strategy:
+      matrix:
+        component:
+        - rollup
+        - webpack
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-    - name: "prepare"
-      run: |
-        mkdir -p ~/build_outputs
-        npm install
-        npx lerna bootstrap
-        npx lerna link
-
-    - name: "[packages/common] build"
+    - run: npm install
+    - run: npx lerna bootstrap
+    - run: npm run prepack
       working-directory: packages/common
-      run: |
-        npm install
-        npm pack
-        cp *.tgz ~/build_outputs/common.tgz
-
-    - name: "[packages/rollup] build"
-      working-directory: packages/rollup
-      run: |
-        npm install
-        npm pack
-        cp *.tgz ~/build_outputs/rollup.tgz
-
-    - name: "[packages/webpack] build"
-      working-directory: packages/webpack
-      run: |
-        npm install
-        npm pack
-        cp *.tgz ~/build_outputs/webpack.tgz
-
-    - name: "upload artifacts"
-      uses: actions/upload-artifact@v2
-      with:
-        name: build_outputs
-        path: ~/build_outputs/*
-
-  test-rollup:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: build_outputs
-          path: test
-      - name: "npm install"
-        working-directory: test/rollup
-        run: npm install
-
-      - name: "[control group] bundle"
-        working-directory: test/rollup
-        run: npx rollup -c rollup.control.js
-      - name: "[experimental group] bundle"
-        working-directory: test/rollup
-        run: npx rollup -c rollup.experimental.js
-
-      - name: "report"
-        working-directory: test/rollup
-        run: ls -lh dist_control dist_experimental
-
-  test-webpack:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: build_outputs
-          path: test
-      - name: "npm install"
-        working-directory: test/webpack
-        run: npm install
-
-      - name: "[control group] bundle"
-        working-directory: test/webpack
-        run: npx webpack --config webpack.control.js
-      - name: "[experimental group] bundle"
-        working-directory: test/webpack
-        run: npx webpack --config webpack.experimental.js
-
-      - name: "report"
-        working-directory: test/webpack
-        run: ls -lh dist_control dist_experimental
+    - run: npm install
+      working-directory: test/${{ matrix.component }}
+    - run: npm run test:control
+      working-directory: test/${{ matrix.component }}
+    - run: npm run test:experimental
+      working-directory: test/${{ matrix.component }}
+    - run: ls -lh dist_control dist_experimental
+      working-directory: test/${{ matrix.component }}
 
