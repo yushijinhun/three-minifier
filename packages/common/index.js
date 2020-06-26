@@ -72,6 +72,49 @@ exports.parseOptions = function (options) {
             });
         }
 
+        transformGLSLJoinLines() {
+            astWalk.ancestor(this.ast, {
+                CallExpression: (node, ancestors) => {
+                    const k = ancestors.length - 1; // assert node === ancestors[k]
+                    if (
+                        k >= 1 &&
+                        ancestors[k - 1].type === "Property" &&
+                        ancestors[k - 1].key.type === "Identifier" && (
+                            ancestors[k - 1].key.name === "vertexShader" ||
+                            ancestors[k - 1].key.name === "fragmentShader") &&
+                        node.arguments.length === 1 &&
+                        node.arguments[0].type === "Literal" &&
+                        node.arguments[0].value === "\n" &&
+                        node.callee.type === "MemberExpression" &&
+                        node.callee.property.type === "Identifier" &&
+                        node.callee.property.name === "join" &&
+                        node.callee.object.type === "ArrayExpression"
+                    ) {
+                        const lines = [];
+                        for (const entry of node.callee.object.elements) {
+                            if (entry.type === "Literal" && typeof entry.value === "string") {
+                                lines.push(entry.value);
+                            } else {
+                                if (verbose) {
+                                    console.info(`three-minifier: Broken array-style GLSL source due to element at character ${entry.start}`);
+                                }
+                                return;
+                            }
+                        }
+                        if (verbose) {
+                            console.info(`three-minifier: Array-style GLSL source: ${lines.length} lines`);
+                        }
+                        const source = lines.join("\n");
+                        this.replacements.push({
+                            start: node.start,
+                            end: node.end,
+                            replacement: JSON.stringify(this.minifyGLSL(source))
+                        });
+                    }
+                }
+            });
+        }
+
         minifyGLSL(source) {
             const output = [];
             let prevType = null; // type of last non-whitespace token (not block-comment, line-comment or whitespace)
@@ -150,6 +193,7 @@ exports.parseOptions = function (options) {
                 const source = new SourceFile(code, file);
                 if (!noCompileGLSL) {
                     source.transformGLSL();
+                    source.transformGLSLJoinLines();
                 }
                 if (!noCompileGLConstants) {
                     source.transformGLConstants();
