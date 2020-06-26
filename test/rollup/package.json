@@ -2,8 +2,8 @@
   "name": "rollup-test",
   "private": true,
   "scripts": {
-    "test:control": "npx rollup -c rollup.control.js",
-    "test:experimental": "npx rollup -c rollup.experimental.js"
+    "test:control": "cp ../index.js . && npx rollup -c rollup.control.js",
+    "test:experimental": "cp ../index.js . && npx rollup -c rollup.experimental.js"
   },
   "dependencies": {
     "three": "^0.117.1"
