@@ -123,9 +123,6 @@ exports.parseOptions = function (options) {
 
             const preprocessor = /^#\w+/.exec(source)[0];
             switch (preprocessor) {
-                case "#include":
-                    return source.replace(/^(#include)\s*(<|")\s*(.+)\s*(>|")$/g, "$1 $2$3$4");
-
                 case "#define":
                 case "#if":
                 case "#elif":
