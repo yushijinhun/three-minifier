@@ -28,7 +28,13 @@ logr(){
 # $2; test_case: test_case_name
 run_test_with_component(){
 	pushd $1
-	cp "../testcases/$2.js" index.js
+    if [ -f "../testcases/$2.sh" ];then
+		pushd node_modules/three
+		"../../../testcases/$2.sh" > ../../index.js
+		popd
+	else
+		cp "../testcases/$2.js" index.js
+	fi
 	npm run test:control
 	npm run test:experimental
 	logr "Test $2: $1: $(stat -c '%s' dist_control/index.js | numfmt --to=si) => $(stat -c '%s' dist_experimental/index.js | numfmt --to=si)"
@@ -43,7 +49,7 @@ run_test(){
 }
 
 if [[ "$1" == "all" ]] || [[ "$1" == "" ]];then
-	readarray -td '' test_files < <(find testcases -type f -name "*.js" -print0)
+	readarray -td '' test_files < <(find testcases -type f \( -name "*.js" -o -name "*.sh" \) -print0 | sort -z)
 	tests=("${test_files[@]//+(*\/|.*)}")
 	for testcase in "${tests[@]}";do
 		run_test "$testcase"
