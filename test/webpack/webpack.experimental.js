@@ -7,9 +7,14 @@ module.exports = {
   plugins: [ threeMinifier ],
   output: {
     path: path.resolve(__dirname, 'dist_experimental'),
-    filename: 'bundle.js',
+    filename: 'index.js',
   },
   resolve: {
     plugins: [ threeMinifier.resolver ],
   },
+  devtool: 'source-map',
+  mode: 'production',
+  performance: {
+    hints: false
+  }
 };

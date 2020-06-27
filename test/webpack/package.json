@@ -2,8 +2,8 @@
   "name": "webpack-test",
   "private": true,
   "scripts": {
-    "test:control": "cp ../index.js . && npx webpack --config webpack.control.js",
-    "test:experimental": "cp ../index.js . && npx webpack --config webpack.experimental.js"
+    "test:control": "npx webpack --config webpack.control.js",
+    "test:experimental": "npx webpack --config webpack.experimental.js"
   },
   "devDependencies": {
     "@yushijinhun/three-minifier-webpack": "file:../../packages/webpack",

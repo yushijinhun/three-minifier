@@ -16,10 +16,6 @@ jobs:
       working-directory: packages/common
     - run: npm install
       working-directory: test/${{ matrix.component }}
-    - run: npm run test:control
-      working-directory: test/${{ matrix.component }}
-    - run: npm run test:experimental
-      working-directory: test/${{ matrix.component }}
-    - run: ls -lh dist_control dist_experimental
-      working-directory: test/${{ matrix.component }}
+    - run: ./run_test.sh all ${{ matrix.component }}
+      working-directory: test
 
