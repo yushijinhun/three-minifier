@@ -14,10 +14,12 @@ exports.parseOptions = function (options) {
     const threeDirPart = path.sep + path.join("node_modules", "three") + path.sep;
 
     class SourceFile {
-        constructor(code, file) {
+        constructor(/**@type {string}*/code, /**@type {string}*/file) {
             this.code = code;
             this.file = file;
             this.ast = astParser.parse(code, { sourceType: "module" });
+
+            /**@type {{start:number,end:number,replacement:string}[]}*/
             this.replacements = [];
         }
 
@@ -37,11 +39,7 @@ exports.parseOptions = function (options) {
                                 if (verbose) {
                                     console.info(`three-minifier: GL constant: ${this.code.substring(node.start, node.end)} => ${value}`);
                                 }
-                                this.replacements.push({
-                                    start: node.start,
-                                    end: node.end,
-                                    replacement: value
-                                });
+                                this.replace(node, value);
                             } else {
                                 console.warn(`three-minifier: Unhandled GL constant: ${name}`);
                             }
@@ -49,29 +47,29 @@ exports.parseOptions = function (options) {
                     }
                 },
 
-                TemplateLiteral: node => {
+                Literal: (node, ancestors) => {
+                    if (
+                        typeof node.value === "string" &&
+                        this.speculateGLSL(node, ancestors)
+                    ) {
+                        this.replace(node, JSON.stringify(this.minifyGLSL(node.value)));
+                    }
+                },
+
+                TemplateLiteral: (node, ancestors) => {
                     if (
                         node.expressions.length === 0 &&
                         node.quasis.length === 1 &&
-                        /\/\*\s*glsl\s*\*\/\s*$/.test(this.code.substring(0, node.start))
+                        this.speculateGLSL(node, ancestors)
                     ) {
                         const source = node.quasis[0].value.cooked;
-                        this.replacements.push({
-                            start: node.start,
-                            end: node.end,
-                            replacement: JSON.stringify(this.minifyGLSL(source))
-                        });
+                        this.replace(node, JSON.stringify(this.minifyGLSL(source)));
                     }
                 },
 
                 CallExpression: (node, ancestors) => {
-                    const k = ancestors.length - 1; // assert node === ancestors[k]
                     if (
-                        k >= 1 &&
-                        ancestors[k - 1].type === "Property" &&
-                        ancestors[k - 1].key.type === "Identifier" && (
-                            ancestors[k - 1].key.name === "vertexShader" ||
-                            ancestors[k - 1].key.name === "fragmentShader") &&
+                        this.speculateGLSL(node, ancestors) &&
                         node.arguments.length === 1 &&
                         node.arguments[0].type === "Literal" &&
                         node.arguments[0].value === "\n" &&
@@ -95,17 +93,38 @@ exports.parseOptions = function (options) {
                             console.info(`three-minifier: Array-style GLSL source: ${lines.length} lines`);
                         }
                         const source = lines.join("\n");
-                        this.replacements.push({
-                            start: node.start,
-                            end: node.end,
-                            replacement: JSON.stringify(this.minifyGLSL(source))
-                        });
+                        this.replace(node, JSON.stringify(this.minifyGLSL(source)));
                     }
                 }
             });
         }
 
-        minifyGLSL(source) {
+        replace(/**@type {acorn.Node}*/node, /**@type {string}*/replacement) {
+            this.replacements.push({
+                start: node.start,
+                end: node.end,
+                replacement: replacement
+            });
+        }
+
+        speculateGLSL(/**@type {acorn.Node}*/node, /**@type {acorn.Node[]}*/ancestors) {
+            const k = ancestors.length - 1; // assert ancestors[k] === node
+            return /\/\*\s*glsl\s*\*\/\s*$/.test(this.code.substring(0, node.start)) || // /* glsl */ ...
+                (k >= 1 &&
+                    ancestors[k - 1].type === "Property" &&
+                    ancestors[k - 1].key.type === "Identifier" && (
+                        ancestors[k - 1].key.name === "vertexShader" || // vertexShader: ...
+                        ancestors[k - 1].key.name === "fragmentShader")) || // fragmentShader: ...
+                (k >= 1 &&
+                    ancestors[k - 1].type === "NewExpression" &&
+                    ancestors[k - 1].callee.type === "Identifier" &&
+                    ancestors[k - 1].arguments[0] === node && (
+                        ancestors[k - 1].callee.name === "FunctionNode" || // new FunctionNode(...)
+                        ancestors[k - 1].callee.name === "ExpressionNode") // new ExpressionNode(...)
+                );
+        }
+
+        minifyGLSL(/**@type {string}*/source) {
             const output = [];
             let prevType = null; // type of last non-whitespace token (not block-comment, line-comment or whitespace)
             let pendingWhitespace = false; // have we skipped any whitespace token since last non-whitespace token?
@@ -172,10 +191,10 @@ exports.parseOptions = function (options) {
     }
 
     return {
-        isThreeSource(file) {
+        isThreeSource(/**@type {string}*/file) {
             return file.includes(threeDirPart);
         },
-        *transformCode(code, file) {
+        *transformCode(/**@type {string}*/code, /**@type {string}*/file) {
             if (this.isThreeSource(file)) {
                 if (verbose) {
                     console.log(`three-minifier: Processing ${file}`);
@@ -187,7 +206,7 @@ exports.parseOptions = function (options) {
                 }
             }
         },
-        transformModule(file) {
+        transformModule(/**@type {string}*/file) {
             if (file.endsWith(threeBundleSuffix)) {
                 if (verbose) {
                     console.log(`three-minifier: Redirect module: ${file}`);
@@ -197,7 +216,7 @@ exports.parseOptions = function (options) {
                 return null;
             }
         },
-        clearSideEffects(file) {
+        clearSideEffects(/**@type {string}*/file) {
             if (file.endsWith(threeBundleSuffix) || file.includes(threeDirPart)) {
                 if (verbose) {
                     console.log(`three-minifier: Clear side-effects: ${file}`);
