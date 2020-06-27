@@ -31,7 +31,7 @@ run_test_with_component(){
 	cp "../testcases/$2.js" index.js
 	npm run test:control
 	npm run test:experimental
-	logr "Test #$2: $1: $(stat -c '%s' dist_control/index.js | numfmt --to=si) => $(stat -c '%s' dist_experimental/index.js | numfmt --to=si)"
+	logr "Test $2: $1: $(stat -c '%s' dist_control/index.js | numfmt --to=si) => $(stat -c '%s' dist_experimental/index.js | numfmt --to=si)"
 	popd
 }
 
