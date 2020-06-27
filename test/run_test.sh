@@ -24,6 +24,10 @@ logr(){
 	echo -e "\e[7m\e[1;32m$1\e[0m"
 }
 
+fsize(){
+	numfmt --to=si --format=%.2f $1
+}
+
 # $1; component: "rollup" | "webpack"
 # $2; test_case: test_case_name
 run_test_with_component(){
@@ -37,7 +41,9 @@ run_test_with_component(){
 	fi
 	npm run test:control
 	npm run test:experimental
-	logr "Test $2: $1: $(stat -c '%s' dist_control/index.js | numfmt --to=si) => $(stat -c '%s' dist_experimental/index.js | numfmt --to=si)"
+	local size_control=$(stat -c '%s' dist_control/index.js)
+	local size_experimental=$(stat -c '%s' dist_experimental/index.js)
+	logr "Test $2: $1: $(fsize $size_control) => $(fsize $size_experimental) (-$(fsize $(( $size_control - $size_experimental ))), $(bc -l<<<"x=$size_control;y=$size_experimental;z=(y-x)*100/x;scale=2;z/1")%)"
 	popd
 }
 
