@@ -8,9 +8,6 @@ exports.parseOptions = function (options) {
     if (options === undefined)
         options = null;
 
-    const sideEffects = options !== null && options.sideEffects === true;
-    const noCompileGLConstants = options !== null && options.noCompileGLConstants === true;
-    const noCompileGLSL = options !== null && options.noCompileGLSL === true;
     const verbose = options !== null && options.verbose === true;
 
     const threeBundleSuffix = path.sep + path.join("node_modules", "three", "build", "three.module.js");
@@ -24,8 +21,9 @@ exports.parseOptions = function (options) {
             this.replacements = [];
         }
 
-        transformGLConstants() {
-            astWalk.simple(this.ast, {
+        transform() {
+            astWalk.ancestor(this.ast, {
+
                 MemberExpression: node => {
                     if (
                         node.object.type === "Identifier" &&
@@ -49,12 +47,8 @@ exports.parseOptions = function (options) {
                             }
                         }
                     }
-                }
-            });
-        }
+                },
 
-        transformGLSL() {
-            astWalk.simple(this.ast, {
                 TemplateLiteral: node => {
                     if (
                         node.expressions.length === 0 &&
@@ -68,12 +62,8 @@ exports.parseOptions = function (options) {
                             replacement: JSON.stringify(this.minifyGLSL(source))
                         });
                     }
-                }
-            });
-        }
+                },
 
-        transformGLSLJoinLines() {
-            astWalk.ancestor(this.ast, {
                 CallExpression: (node, ancestors) => {
                     const k = ancestors.length - 1; // assert node === ancestors[k]
                     if (
@@ -96,7 +86,7 @@ exports.parseOptions = function (options) {
                                 lines.push(entry.value);
                             } else {
                                 if (verbose) {
-                                    console.info(`three-minifier: Broken array-style GLSL source due to element at character ${entry.start}`);
+                                    console.warn(`three-minifier: Broken array-style GLSL source due to element at character ${entry.start}`);
                                 }
                                 return;
                             }
@@ -191,13 +181,7 @@ exports.parseOptions = function (options) {
                     console.log(`three-minifier: Processing ${file}`);
                 }
                 const source = new SourceFile(code, file);
-                if (!noCompileGLSL) {
-                    source.transformGLSL();
-                    source.transformGLSLJoinLines();
-                }
-                if (!noCompileGLConstants) {
-                    source.transformGLConstants();
-                }
+                source.transform();
                 for (const replacement of source.replacements) {
                     yield replacement;
                 }
@@ -214,7 +198,7 @@ exports.parseOptions = function (options) {
             }
         },
         clearSideEffects(file) {
-            if (sideEffects === false && (file.endsWith(threeBundleSuffix) || file.includes(threeDirPart))) {
+            if (file.endsWith(threeBundleSuffix) || file.includes(threeDirPart)) {
                 if (verbose) {
                     console.log(`three-minifier: Clear side-effects: ${file}`);
                 }
