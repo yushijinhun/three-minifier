@@ -133,13 +133,22 @@ function minifyThreeSource(/**@type {string}*/code) {
         },
 
         TemplateLiteral: (node, ancestors) => {
-            if (
-                node.expressions.length === 0 &&
-                node.quasis.length === 1 &&
-                speculateGLSL(node, ancestors)
-            ) {
-                const source = node.quasis[0].value.cooked;
-                replace(node, JSON.stringify(minifyGLSL(source)));
+            if (speculateGLSL(node, ancestors)) {
+                if (verbose) {
+                    console.log(`three-minifier: String template (${node.quasis.length} fragments)`);
+                }
+                for (let idx = 0; idx < node.quasis.length; idx++) {
+                    /**@type {string}*/
+                    const sourceFragment = node.quasis[idx].value.cooked;
+                    let minifiedFragment = minifyGLSL(sourceFragment);
+                    if (idx > 0 && /^\s*\n/.test(sourceFragment)) {
+                        minifiedFragment = "\n" + minifiedFragment;
+                    }
+                    if (!node.quasis[idx].tail && /\n\s*$/.test(sourceFragment) && minifiedFragment !== "\n") {
+                        minifiedFragment += "\n";
+                    }
+                    replace(node.quasis[idx], minifiedFragment);
+                }
             }
         },
 
