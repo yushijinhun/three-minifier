@@ -13,6 +13,6 @@
   },
   "homepage": "https://github.com/yushijinhun/three-minifier#readme",
   "devDependencies": {
-    "lerna": "^3.22.0"
+    "lerna": "^3.22.1"
   }
 }
