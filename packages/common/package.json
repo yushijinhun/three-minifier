@@ -14,9 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/yushijinhun/three-minifier.git"
   },
-  "scripts": {
-    "prepack": "node fetchConstants.js"
-  },
   "bugs": {
     "url": "https://github.com/yushijinhun/three-minifier/issues"
   },
@@ -25,11 +22,7 @@
     "acorn-walk": "^7.1.1",
     "glsl-tokenizer": "^2.1.5"
   },
-  "devDependencies": {
-    "axios": "^0.19.2"
-  },
   "publishConfig": {
     "access": "public"
-  },
-  "threeRevision": "r117"
+  }
 }
