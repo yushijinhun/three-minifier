@@ -1,12 +1,11 @@
-const parseOptions = require("@yushijinhun/three-minifier-common").parseOptions;
+const minifier = require("@yushijinhun/three-minifier-common");
 const Dependency = require("webpack/lib/Dependency");
 
 const pluginName = "ThreeMinifierPlugin";
 
 class ThreeReplaceDependency extends Dependency {
-    constructor(minifier, file) {
+    constructor(file) {
         super();
-        this.minifier = minifier;
         this.file = file;
     }
 }
@@ -14,7 +13,7 @@ class ThreeReplaceDependency extends Dependency {
 ThreeReplaceDependency.Template = class ThreeReplaceTemplate {
     apply(dep, source) {
         const originalSource = source.original().source();
-        for (const match of dep.minifier.transformCode(originalSource, dep.file)) {
+        for (const match of minifier.transformCode(originalSource, dep.file)) {
             source.replace(match.start, match.end - 1, match.replacement);
         }
     }
@@ -22,15 +21,13 @@ ThreeReplaceDependency.Template = class ThreeReplaceTemplate {
 
 class ThreeMinifierPlugin {
     constructor() {
-        this.minifier = parseOptions();
-
         this.resolver = {};
         this.resolver.apply = resolver => {
             resolver.getHook("resolve").tapAsync(pluginName, (request, resolveContext, callback) => {
                 resolver.doResolve(resolver.ensureHook("parsedResolve"), request, null, resolveContext,
                     (error, result) => {
                         if (result && result.path) {
-                            const tranformed = this.minifier.transformModule(result.path);
+                            const tranformed = minifier.transformModule(result.path);
                             if (tranformed !== null) {
                                 resolver.doResolve(resolver.ensureHook("parsedResolve"),
                                     {
@@ -52,7 +49,7 @@ class ThreeMinifierPlugin {
     _clearSideEffects(callback) {
         return (error, result) => {
             if (result && result.path) {
-                if (this.minifier.clearSideEffects(result.path)) {
+                if (minifier.clearSideEffects(result.path)) {
                     result.descriptionFileData.sideEffects = false;
                 }
             }
@@ -67,8 +64,8 @@ class ThreeMinifierPlugin {
                 new ThreeReplaceDependency.Template()
             );
             compilation.hooks.buildModule.tap(pluginName, module => {
-                if (module.resource && this.minifier.isThreeSource(module.resource)) {
-                    module.addDependency(new ThreeReplaceDependency(this.minifier, module.resource));
+                if (module.resource && minifier.isThreeSource(module.resource)) {
+                    module.addDependency(new ThreeReplaceDependency(module.resource));
                 }
             });
         });
