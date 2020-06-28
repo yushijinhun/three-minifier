@@ -31,7 +31,7 @@ import { threeMinifier } from "@yushijinhun/three-minifier-rollup";
 export default {
     ...
     plugins: [
-        threeMinifier({/* options */}), // <=== Add plugin on the FIRST line
+        threeMinifier(), // <=== Add plugin on the FIRST line
         ...
     ]
 };
@@ -45,7 +45,7 @@ npm install --save-dev @yushijinhun/three-minifier-webpack
 `webpack.config.js`:
 ```javascript
 const ThreeMinifierPlugin = require("@yushijinhun/three-minifier-webpack");
-const threeMinifier = new ThreeMinifierPlugin({/* options */});
+const threeMinifier = new ThreeMinifierPlugin();
 ...
 module.exports = {
     ...
@@ -107,9 +107,4 @@ However, THREE.js hasn't come up with a feasible solution so far. See [related i
  * [Support esm on node with conditional exports _mrdoob/three.js#18498_](https://github.com/mrdoob/three.js/pull/18498)
  * [vxna/optimize-three-webpack-plugin](https://github.com/vxna/optimize-three-webpack-plugin)
  * [mattdesl/threejs-tree-shake](https://github.com/mattdesl/threejs-tree-shake)
-
-## Options
-|Name                |Type   |Description                                                                       |
-|--------------------|-------|----------------------------------------------------------------------------------|
-|verbose             |boolean|(default: false) Enable verbose output                                            |
 

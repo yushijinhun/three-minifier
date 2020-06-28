@@ -21,8 +21,8 @@ ThreeReplaceDependency.Template = class ThreeReplaceTemplate {
 };
 
 class ThreeMinifierPlugin {
-    constructor(options) {
-        this.minifier = parseOptions(options);
+    constructor() {
+        this.minifier = parseOptions();
 
         this.resolver = {};
         this.resolver.apply = resolver => {

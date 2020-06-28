@@ -2,9 +2,9 @@ const createNodeResolver = require("@rollup/plugin-node-resolve").nodeResolve;
 const parseOptions = require("@yushijinhun/three-minifier-common").parseOptions;
 const MagicString = require("magic-string");
 
-exports.threeMinifier = (options) => {
+exports.threeMinifier = () => {
     const nodeResolver = createNodeResolver();
-    const minifier = parseOptions(options);
+    const minifier = parseOptions();
 
     return {
         id: "threeMinifier",

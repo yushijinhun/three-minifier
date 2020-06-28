@@ -3,13 +3,9 @@ const path = require("path");
 const astParser = require("acorn").Parser;
 const astWalk = require("acorn-walk");
 const glslTokenizer = require("glsl-tokenizer");
+const verbose = process.env["THREE_MINIFIER_DEBUG"] === "1";
 
-exports.parseOptions = function (options) {
-    if (options === undefined)
-        options = null;
-
-    const verbose = options !== null && options.verbose === true;
-
+exports.parseOptions = function () {
     const threeBundleSuffix = path.sep + path.join("node_modules", "three", "build", "three.module.js");
     const threeDirPart = path.sep + path.join("node_modules", "three") + path.sep;
 
