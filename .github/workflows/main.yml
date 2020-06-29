@@ -1,19 +1,20 @@
 name: CI
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 jobs:
   build_test:
     strategy:
       matrix:
         component:
-        - rollup
-        - webpack
+          - rollup
+          - webpack
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: npm install
-    - run: npx lerna bootstrap
-    - run: npm install
-      working-directory: test/${{ matrix.component }}
-    - run: ./run_test.sh all ${{ matrix.component }}
-      working-directory: test
-
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npx lerna bootstrap
+      - run: npm install
+        working-directory: 'test/${{ matrix.component }}'
+      - run: './run_test.sh all ${{ matrix.component }}'
+        working-directory: test

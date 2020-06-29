@@ -1,28 +1,28 @@
 {
-  "name": "@yushijinhun/three-minifier-webpack",
-  "version": "0.1.7",
-  "main": "plugin.js",
-  "types": "plugin.d.ts",
-  "files": [
-    "plugin.js",
-    "plugin.d.ts"
-  ],
-  "license": "MIT",
-  "description": "Minify THREE.js",
-  "homepage": "https://github.com/yushijinhun/three-minifier#readme",
-  "author": "Haowei Wen <yushijinhun@gmail.com> (https://github.com/yushijinhun)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yushijinhun/three-minifier.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yushijinhun/three-minifier/issues"
-  },
-  "dependencies": {
-    "webpack": "^4.43.0",
-    "@yushijinhun/three-minifier-common": "^0.1.7"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@yushijinhun/three-minifier-webpack",
+	"version": "0.1.7",
+	"main": "plugin.js",
+	"types": "plugin.d.ts",
+	"files": [
+		"plugin.js",
+		"plugin.d.ts"
+	],
+	"license": "MIT",
+	"description": "Minify THREE.js",
+	"homepage": "https://github.com/yushijinhun/three-minifier#readme",
+	"author": "Haowei Wen <yushijinhun@gmail.com> (https://github.com/yushijinhun)",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yushijinhun/three-minifier.git"
+	},
+	"bugs": {
+		"url": "https://github.com/yushijinhun/three-minifier/issues"
+	},
+	"dependencies": {
+		"webpack": "^4.43.0",
+		"@yushijinhun/three-minifier-common": "^0.1.7"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }

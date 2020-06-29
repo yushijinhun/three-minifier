@@ -1,18 +1,18 @@
 {
-  "name": "@yushijinhun/three-minifier",
-  "private": true,
-  "description": "Minify THREE.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yushijinhun/three-minifier.git"
-  },
-  "author": "Haowei Wen <yushijinhun@gmail.com> (https://github.com/yushijinhun)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yushijinhun/three-minifier/issues"
-  },
-  "homepage": "https://github.com/yushijinhun/three-minifier#readme",
-  "devDependencies": {
-    "lerna": "^3.22.1"
-  }
+	"name": "@yushijinhun/three-minifier",
+	"private": true,
+	"description": "Minify THREE.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yushijinhun/three-minifier.git"
+	},
+	"author": "Haowei Wen <yushijinhun@gmail.com> (https://github.com/yushijinhun)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/yushijinhun/three-minifier/issues"
+	},
+	"homepage": "https://github.com/yushijinhun/three-minifier#readme",
+	"devDependencies": {
+		"lerna": "^3.22.1"
+	}
 }

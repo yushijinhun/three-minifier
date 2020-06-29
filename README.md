@@ -16,7 +16,7 @@ This plugin helps projects who use THREE.js shrink their size by:
 ## Usage
 
 ### :warning: Before continuing... :warning:
- * This plugin hasn't been fully tested, and may be **unstable**. Use with caution.  
+ * This plugin hasn't been fully tested, and may be **unstable**. Use with caution.
  * Node.js **>= v12.0** is required.
 
 ### Rollup
@@ -29,11 +29,11 @@ npm install --save-dev @yushijinhun/three-minifier-rollup
 import { threeMinifier } from "@yushijinhun/three-minifier-rollup";
 ...
 export default {
-    ...
-    plugins: [
-        threeMinifier(), // <=== Add plugin on the FIRST line
-        ...
-    ]
+	...
+	plugins: [
+		threeMinifier(), // <=== Add plugin on the FIRST line
+		...
+	]
 };
 ```
 
@@ -48,17 +48,17 @@ const ThreeMinifierPlugin = require("@yushijinhun/three-minifier-webpack");
 const threeMinifier = new ThreeMinifierPlugin();
 ...
 module.exports = {
-    ...
-    plugins: [
-        threeMinifier, // <=== (1) Add plugin on the FIRST line
-        ...
-    ],
-    resolve: {
-        plugins: [
-            threeMinifier.resolver, // <=== (2) Add resolver on the FIRST line
-            ...
-        ]
-    }
+	...
+	plugins: [
+		threeMinifier, // <=== (1) Add plugin on the FIRST line
+		...
+	],
+	resolve: {
+		plugins: [
+			threeMinifier.resolver, // <=== (2) Add resolver on the FIRST line
+			...
+		]
+	}
 };
 ```
 
