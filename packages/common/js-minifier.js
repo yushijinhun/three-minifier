@@ -1,11 +1,12 @@
 const { minifyGLSL } = require("./glsl-minifier");
 const { debug, warn } = require("./util");
 
+const path = require("path");
 const astParser = require("acorn").Parser;
 const astWalk = require("acorn-walk");
 const glconstants = require("./glconstants.json");
 
-function minifyJavascript(/**@type {string}*/code) {
+function minifyJavascript(/**@type {string}*/code, /**@type {string}*/file) {
 	const ast = astParser.parse(code, { sourceType: "module" });
 
 	/**@type {{start:number,end:number,replacement:string}[]}*/
@@ -62,6 +63,14 @@ function minifyJavascript(/**@type {string}*/code) {
 				speculateGLSL(node, ancestors)
 			) {
 				replace(node, JSON.stringify(minifyGLSL(node.value)));
+			}
+
+			// SubsurfaceScatteringShader patch
+			if (
+				file.endsWith(path.sep + path.join("node_modules", "three", "examples", "jsm", "shaders", "SubsurfaceScatteringShader.js")) &&
+				node.value === "void main() {"
+			) {
+				replace(node, JSON.stringify("void main(){"));
 			}
 		},
 

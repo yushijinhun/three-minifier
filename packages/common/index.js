@@ -12,7 +12,7 @@ function isThreeSource(/**@type {string}*/file) {
 function* transformCode(/**@type {string}*/code, /**@type {string}*/file) {
 	if (isThreeSource(file)) {
 		debug(`Processing ${file}`);
-		for (const replacement of minifyJavascript(code)) {
+		for (const replacement of minifyJavascript(code, file)) {
 			yield replacement;
 		}
 	}
