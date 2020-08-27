@@ -1,6 +1,6 @@
 {
 	"name": "@yushijinhun/three-minifier-webpack",
-	"version": "0.2.0-alpha.1",
+	"version": "0.2.0-alpha.2",
 	"main": "plugin.js",
 	"types": "plugin.d.ts",
 	"files": [
@@ -19,7 +19,7 @@
 		"url": "https://github.com/yushijinhun/three-minifier/issues"
 	},
 	"dependencies": {
-		"@yushijinhun/three-minifier-common": "^0.2.0-alpha.1",
+		"@yushijinhun/three-minifier-common": "^0.2.0-alpha.2",
 		"webpack": "^4.44.1"
 	},
 	"publishConfig": {
