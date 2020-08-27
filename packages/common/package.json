@@ -8,6 +8,9 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
+		"glsl-minifier.js",
+		"js-minifier.js",
+		"util.js",
 		"glconstants.json"
 	],
 	"repository": {
