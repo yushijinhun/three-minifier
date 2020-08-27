@@ -19,8 +19,8 @@
 		"url": "https://github.com/yushijinhun/three-minifier/issues"
 	},
 	"dependencies": {
-		"webpack": "^4.43.0",
-		"@yushijinhun/three-minifier-common": "^0.1.7"
+		"@yushijinhun/three-minifier-common": "^0.1.7",
+		"webpack": "^4.44.1"
 	},
 	"publishConfig": {
 		"access": "public"

@@ -1,3 +1,9 @@
+> ### :warning: Before continuing... :warning:
+>  * three.js **>= r120** is required for three-minifier v0.2.x.
+>     * Use three-minifier v0.1.x if your three.js < r120.
+> * This plugin hasn't been fully tested, and may be **unstable**. Use with caution.
+> * Node.js **>= v12.0** is required.
+
 # three-minifier
 [![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/yushijinhun/three-minifier?color=yellow&include_prereleases&label=version&sort=semver&style=flat-square)](https://github.com/yushijinhun/three-minifier/releases)
 [![Requires node version >= v12.0](https://img.shields.io/badge/requires-node%20≥%20v12.0-brightgreen?style=flat-square&logo=node.js&logoColor=brightgreen)](https://github.com/yushijinhun/three-minifier/issues/3)
@@ -14,10 +20,6 @@ This plugin helps projects who use THREE.js shrink their size by:
  * Minify GLSL files.
 
 ## Usage
-
-### :warning: Before continuing... :warning:
- * This plugin hasn't been fully tested, and may be **unstable**. Use with caution.
- * Node.js **>= v12.0** is required.
 
 ### Rollup
 ```

@@ -7,7 +7,7 @@ const astWalk = require("acorn-walk");
 const glconstants = require("./glconstants.json");
 
 function minifyJavascript(/**@type {string}*/code, /**@type {string}*/file) {
-	const ast = astParser.parse(code, { sourceType: "module" });
+	const ast = astParser.parse(code, { sourceType: "module", ecmaVersion: 2020 });
 
 	/**@type {{start:number,end:number,replacement:string}[]}*/
 	const replacements = [];

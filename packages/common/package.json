@@ -18,8 +18,8 @@
 		"url": "https://github.com/yushijinhun/three-minifier/issues"
 	},
 	"dependencies": {
-		"acorn": "^7.2.0",
-		"acorn-walk": "^7.1.1",
+		"acorn": "^8.0.1",
+		"acorn-walk": "^8.0.0",
 		"glsl-tokenizer": "^2.1.5"
 	},
 	"publishConfig": {

@@ -4,7 +4,7 @@
 	"main": "plugin.js",
 	"types": "plugin.d.ts",
 	"dependencies": {
-		"@rollup/plugin-node-resolve": "^8.1.0",
+		"@rollup/plugin-node-resolve": "^9.0.0",
 		"@yushijinhun/three-minifier-common": "^0.1.7",
 		"magic-string": "^0.25.7"
 	},
