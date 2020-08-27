@@ -71,6 +71,7 @@ function minifyJavascript(/**@type {string}*/code, /**@type {string}*/file) {
 				node.value === "void main() {"
 			) {
 				replace(node, JSON.stringify("void main(){"));
+				debug("Patched SubsurfaceScatteringShader");
 			}
 		},
 
