@@ -3,8 +3,7 @@
 readarray -td '' files < <(
 	find examples/jsm \
 		\( \
-		-path examples/jsm/libs -o \
-		-path examples/jsm/controls/experimental \
+		-path examples/jsm/libs \
 		\) -prune -o \
 		-name "*.js" \
 		-print0
