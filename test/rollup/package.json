@@ -6,7 +6,7 @@
 		"test:experimental": "npx rollup -c rollup.experimental.js"
 	},
 	"dependencies": {
-		"three": "^0.120.0"
+		"three": "^0.121.1"
 	},
 	"devDependencies": {
 		"@rollup/plugin-node-resolve": "^9.0.0",
