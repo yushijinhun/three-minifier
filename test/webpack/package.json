@@ -7,8 +7,8 @@
 	},
 	"devDependencies": {
 		"@yushijinhun/three-minifier-webpack": "file:../../packages/webpack",
-		"webpack": "^4.44.1",
-		"webpack-cli": "^3.3.11"
+		"webpack": "^4.44.2",
+		"webpack-cli": "^4.0.0"
 	},
 	"dependencies": {
 		"three": "^0.121.1"

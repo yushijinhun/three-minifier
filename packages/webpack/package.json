@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@yushijinhun/three-minifier-common": "^0.2.0-alpha.2",
-		"webpack": "^4.44.1"
+		"webpack": "^4.44.2"
 	},
 	"publishConfig": {
 		"access": "public"
