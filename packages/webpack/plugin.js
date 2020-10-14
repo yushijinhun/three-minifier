@@ -27,12 +27,12 @@ class ThreeMinifierPlugin {
 				resolver.doResolve(resolver.ensureHook("parsedResolve"), request, null, resolveContext,
 					(error, result) => {
 						if (result && result.path) {
-							const tranformed = minifier.transformModule(result.path);
-							if (tranformed !== null) {
+							const transformed = minifier.transformModule(result.path);
+							if (transformed !== null) {
 								resolver.doResolve(resolver.ensureHook("parsedResolve"),
 									{
 										...request,
-										request: tranformed
+										request: transformed
 									},
 									null, resolveContext, this._clearSideEffects(callback));
 								return;
