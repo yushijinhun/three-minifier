@@ -25,12 +25,12 @@ class ThreeMinifierPlugin {
 		this.resolver = {};
 		this.resolver.apply = resolver => {
 			resolver.getHook("resolve").tapAsync(pluginName, (request, resolveContext, callback) => {
-				resolver.doResolve(resolver.ensureHook("parsedResolve"), request, null, resolveContext,
+				resolver.doResolve(resolver.ensureHook("internal-resolve"), request, null, resolveContext,
 					(error, result) => {
 						if (result && result.path) {
 							const transformed = minifier.transformModule(result.path);
 							if (transformed !== null) {
-								resolver.doResolve(resolver.ensureHook("parsedResolve"),
+								resolver.doResolve(resolver.ensureHook("internal-resolve"),
 									{
 										...request,
 										request: transformed
