@@ -45,6 +45,9 @@ run_test_with_component() {
 	local size_experimental=$(stat -c '%s' dist_experimental/index.js)
 	logr "Test $2: $1: $(fsize $size_control) => $(fsize $size_experimental) ($(fsize $(( $size_experimental - $size_control ))), $(bc -l <<<"x=$size_control;y=$size_experimental;z=(y-x)*100/x;scale=2;z/1")%)"
 	popd > /dev/null
+	if [ "$size_experimental" -gt "$size_control" ]; then
+		positive_filesize_change=true
+	fi
 }
 
 # $1; test_case: test_case_name
@@ -53,6 +56,8 @@ run_test() {
 		run_test_with_component "$component" "$1"
 	done
 }
+
+positive_filesize_change=false
 
 if [[ "$1" == "all" ]] || [[ "$1" == "" ]]; then
 	readarray -td '' test_files < <(find testcases -type f \( -name "*.js" -o -name "*.sh" \) -print0 | sort -z)
@@ -68,3 +73,8 @@ echo
 echo -e "\e[7m\e[1;32mResults:\e[0m"
 cat $result_file
 rm -f $result_file
+
+if [[ "$positive_filesize_change" == "true" ]]; then
+	echo -e "\e[7m\e[1;31mERROR\e[0m There is a positve filesize change in some bundle!"
+	exit 1
+fi
