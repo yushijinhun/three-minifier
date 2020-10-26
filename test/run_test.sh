@@ -25,7 +25,7 @@ logr() {
 }
 
 fsize() {
-	numfmt --to=si --format=%.2f $1
+	numfmt --to=si --format=%.2f -- $1
 }
 
 # $1; component: "rollup" | "webpack"
@@ -43,7 +43,7 @@ run_test_with_component() {
 	npm run test:experimental
 	local size_control=$(stat -c '%s' dist_control/index.js)
 	local size_experimental=$(stat -c '%s' dist_experimental/index.js)
-	logr "Test $2: $1: $(fsize $size_control) => $(fsize $size_experimental) (-$(fsize $(($size_control - $size_experimental))), $(bc -l <<<"x=$size_control;y=$size_experimental;z=(y-x)*100/x;scale=2;z/1")%)"
+	logr "Test $2: $1: $(fsize $size_control) => $(fsize $size_experimental) ($(fsize $(( $size_experimental - $size_control ))), $(bc -l <<<"x=$size_control;y=$size_experimental;z=(y-x)*100/x;scale=2;z/1")%)"
 	popd > /dev/null
 }
 
