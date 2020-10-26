@@ -31,11 +31,11 @@ fsize() {
 # $1; component: "rollup" | "webpack"
 # $2; test_case: test_case_name
 run_test_with_component() {
-	pushd $1
+	pushd $1 > /dev/null
 	if [ -f "../testcases/$2.sh" ]; then
-		pushd node_modules/three
+		pushd node_modules/three > /dev/null
 		"../../../testcases/$2.sh" >../../index.js
-		popd
+		popd > /dev/null
 	else
 		cp "../testcases/$2.js" index.js
 	fi
@@ -44,7 +44,7 @@ run_test_with_component() {
 	local size_control=$(stat -c '%s' dist_control/index.js)
 	local size_experimental=$(stat -c '%s' dist_experimental/index.js)
 	logr "Test $2: $1: $(fsize $size_control) => $(fsize $size_experimental) (-$(fsize $(($size_control - $size_experimental))), $(bc -l <<<"x=$size_control;y=$size_experimental;z=(y-x)*100/x;scale=2;z/1")%)"
-	popd
+	popd > /dev/null
 }
 
 # $1; test_case: test_case_name
