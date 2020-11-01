@@ -1,9 +1,3 @@
-> ### :warning: Before continuing... :warning:
->  * three.js **>= r120** is required for three-minifier v0.2.x.
->     * Use three-minifier v0.1.x if your three.js < r120.
-> * This plugin hasn't been fully tested, and may be **unstable**. Use with caution.
-> * Node.js **>= v12.0** is required.
-
 # three-minifier
 [![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/yushijinhun/three-minifier?color=yellow&include_prereleases&label=version&sort=semver&style=flat-square)](https://github.com/yushijinhun/three-minifier/releases)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yushijinhun/three-minifier/CI?logo=github&style=flat-square)](https://github.com/yushijinhun/three-minifier/actions?query=workflow%3ACI)
@@ -17,6 +11,12 @@ This plugin helps projects who use THREE.js shrink their size by:
  * Mark `three` as side-effect free.
  * Replace WebGL constants with literals.
  * Minify GLSL files.
+
+## Requirements
+ * node **>= v12.0**
+ * three.js **>= r120**
+ * Only webpack v4 is supported by the webpack plugin
+    * Support for webpack v5 is still in progress [(#8)](https://github.com/yushijinhun/three-minifier/issues/8)
 
 ## Usage
 
