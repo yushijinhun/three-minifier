@@ -12,7 +12,7 @@ readarray -td '' files < <(
 
 modules=("${files[@]/.*/}")
 for module in "${modules[@]}"; do
-	module_basename=${module##*/}
+	module_basename=${module//\//_}
 	echo "import * as m_$module_basename from \"three/$module\";"
 	echo "console.log(m_$module_basename);"
 	echo
