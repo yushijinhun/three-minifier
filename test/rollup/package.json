@@ -9,9 +9,9 @@
 		"three": "^0.122.0"
 	},
 	"devDependencies": {
-		"@rollup/plugin-node-resolve": "^10.0.0",
+		"@rollup/plugin-node-resolve": "^11.2.0",
 		"@yushijinhun/three-minifier-rollup": "file:../../packages/rollup",
-		"rollup": "^2.32.1",
+		"rollup": "^2.39.0",
 		"rollup-plugin-terser": "^7.0.2"
 	}
 }
