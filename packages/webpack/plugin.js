@@ -1,5 +1,6 @@
 const minifier = require("@yushijinhun/three-minifier-common");
 const Dependency = require("webpack/lib/Dependency");
+const NormalModule = require("webpack/lib/NormalModule");
 
 const pluginName = "ThreeMinifierPlugin";
 
@@ -24,12 +25,12 @@ class ThreeMinifierPlugin {
 		this.resolver = {};
 		this.resolver.apply = resolver => {
 			resolver.getHook("resolve").tapAsync(pluginName, (request, resolveContext, callback) => {
-				resolver.doResolve(resolver.ensureHook("parsedResolve"), request, null, resolveContext,
+				resolver.doResolve(resolver.ensureHook("internal-resolve"), request, null, resolveContext,
 					(error, result) => {
 						if (result && result.path) {
 							const transformed = minifier.transformModule(result.path);
 							if (transformed !== null) {
-								resolver.doResolve(resolver.ensureHook("parsedResolve"),
+								resolver.doResolve(resolver.ensureHook("internal-resolve"),
 									{
 										...request,
 										request: transformed
@@ -63,7 +64,8 @@ class ThreeMinifierPlugin {
 				ThreeReplaceDependency,
 				new ThreeReplaceDependency.Template()
 			);
-			compilation.hooks.buildModule.tap(pluginName, module => {
+			const compilationHooks = NormalModule.getCompilationHooks(compilation);
+			compilationHooks.beforeLoaders.tap(pluginName, (_, module) => {
 				if (module.resource && minifier.isThreeSource(module.resource)) {
 					module.addDependency(new ThreeReplaceDependency(module.resource));
 				}

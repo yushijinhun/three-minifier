@@ -6,9 +6,10 @@
 		"test:experimental": "npx webpack --config webpack.experimental.js"
 	},
 	"devDependencies": {
-		"@yushijinhun/three-minifier-webpack": "file:../../packages/webpack",
-		"webpack": "^4.46.0",
-		"webpack-cli": "^4.5.0"
+		"@yushijinhun/three-minifier-common": "file:../../packages/common/yushijinhun-three-minifier-common-0.3.0-alpha.0.tgz",
+		"@yushijinhun/three-minifier-webpack": "file:../../packages/webpack/yushijinhun-three-minifier-webpack-0.3.0-alpha.0.tgz",
+		"webpack": "^5.40.0",
+		"webpack-cli": "^4.7.2"
 	},
 	"dependencies": {
 		"three": "^0.125.2"

@@ -1,23 +1,12 @@
-const createNodeResolver = require("@rollup/plugin-node-resolve").nodeResolve;
 const minifier = require("@yushijinhun/three-minifier-common");
 const MagicString = require("magic-string");
 
 exports.threeMinifier = () => {
-	const nodeResolver = createNodeResolver();
-
 	return {
 		id: "threeMinifier",
 
-		buildStart(options) {
-			nodeResolver.buildStart(options);
-		},
-
-		generateBundle() {
-			nodeResolver.generateBundle();
-		},
-
-		resolveId: async (moduleName, file) => {
-			const origin = await nodeResolver.resolveId(moduleName, file);
+		async resolveId(moduleName, file) {
+			const origin = await this.resolve(moduleName, file, { skipSelf: true });
 			if (origin) {
 				const transformedId = minifier.transformModule(origin.id);
 				if (transformedId === null) {
@@ -26,7 +15,7 @@ exports.threeMinifier = () => {
 						return origin;
 					}
 				} else {
-					const transformed = await nodeResolver.resolveId(transformedId);
+					const transformed = await this.resolve(transformedId);
 					if (minifier.clearSideEffects(transformed.id)) {
 						transformed.moduleSideEffects = false;
 					}
