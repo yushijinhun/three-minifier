@@ -1,4 +1,4 @@
-import resolve from "@rollup/plugin-node-resolve";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 
 export default {
@@ -10,7 +10,7 @@ export default {
 		compact: true
 	},
 	plugins: [
-		resolve(),
+		nodeResolve(),
 		terser()
 	]
 };

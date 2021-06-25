@@ -1,4 +1,4 @@
-import resolve from "@rollup/plugin-node-resolve";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import { threeMinifier } from "@yushijinhun/three-minifier-rollup";
 
@@ -12,7 +12,7 @@ export default {
 	},
 	plugins: [
 		threeMinifier(),
-		resolve(),
+		nodeResolve(),
 		terser()
 	]
 };
