@@ -15,8 +15,7 @@ This plugin helps projects who use THREE.js shrink their size by:
 ## Requirements
  * node **>= v12.0**
  * three.js **>= r120**
- * Only webpack v4 is supported by the webpack plugin
-    * Support for webpack v5 is still in progress [(#8)](https://github.com/yushijinhun/three-minifier/issues/8)
+ * Webpack plugin requires Webpack 5
 
 ## Usage
 

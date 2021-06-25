@@ -1,6 +1,6 @@
 const minifier = require("@yushijinhun/three-minifier-common");
 const Dependency = require("webpack/lib/Dependency");
-const DependencyTemplate = require("webpack/lib/DependencyTemplate");
+const NormalModule = require("webpack/lib/NormalModule");
 
 const pluginName = "ThreeMinifierPlugin";
 
@@ -11,7 +11,7 @@ class ThreeReplaceDependency extends Dependency {
 	}
 }
 
-ThreeReplaceDependency.Template = class ThreeReplaceTemplate extends DependencyTemplate {
+ThreeReplaceDependency.Template = class ThreeReplaceTemplate {
 	apply(dep, source) {
 		const originalSource = source.original().source();
 		for (const match of minifier.transformCode(originalSource, dep.file)) {
@@ -64,7 +64,8 @@ class ThreeMinifierPlugin {
 				ThreeReplaceDependency,
 				new ThreeReplaceDependency.Template()
 			);
-			compilation.hooks.buildModule.tap(pluginName, module => {
+			const compilationHooks = NormalModule.getCompilationHooks(compilation);
+			compilationHooks.beforeLoaders.tap(pluginName, (_, module) => {
 				if (module.resource && minifier.isThreeSource(module.resource)) {
 					module.addDependency(new ThreeReplaceDependency(module.resource));
 				}
