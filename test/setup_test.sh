@@ -15,6 +15,7 @@ path_common=$(pack_package common)
 setup_rollup(){
 	path_rollup=$(pack_package rollup)
 	pushd rollup
+	npm i
 	npm i --save-dev "$path_rollup"
 	npm i --save-dev "$path_common"
 	popd
@@ -23,6 +24,7 @@ setup_rollup(){
 setup_webpack(){
 	path_webpack=$(pack_package webpack)
 	pushd webpack
+	npm i
 	npm i --save-dev "$path_webpack"
 	npm i --save-dev "$path_common"
 	popd
