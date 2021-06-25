@@ -10,8 +10,8 @@
 	},
 	"devDependencies": {
 		"@rollup/plugin-node-resolve": "^13.0.0",
-		"@yushijinhun/three-minifier-common": "file:../../packages/common/yushijinhun-three-minifier-common-0.3.0-alpha.0.tgz",
-		"@yushijinhun/three-minifier-rollup": "file:../../packages/rollup/yushijinhun-three-minifier-rollup-0.3.0-alpha.0.tgz",
+		"@yushijinhun/three-minifier-common": "file:../package-common.tgz",
+		"@yushijinhun/three-minifier-rollup": "file:../package-rollup.tgz",
 		"rollup": "^2.52.2",
 		"rollup-plugin-terser": "^7.0.2"
 	}

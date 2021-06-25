@@ -6,27 +6,24 @@ rm -rf {rollup,webpack}/{dist_control,dist_experimental,package-lock.json,node_m
 
 pack_package(){
 	pushd ../packages/$1 > /dev/null
-	realpath "$(npm pack)"
+	local pack_path=$(realpath "$(npm pack)")
 	popd > /dev/null
+	cp "$pack_path" "package-$1.tgz"
 }
 
-path_common=$(pack_package common)
+pack_package common
 
 setup_rollup(){
-	path_rollup=$(pack_package rollup)
+	pack_package rollup
 	pushd rollup
 	npm i
-	npm i --save-dev "$path_rollup"
-	npm i --save-dev "$path_common"
 	popd
 }
 
 setup_webpack(){
-	path_webpack=$(pack_package webpack)
+	pack_package webpack
 	pushd webpack
 	npm i
-	npm i --save-dev "$path_webpack"
-	npm i --save-dev "$path_common"
 	popd
 }
 
