@@ -4,7 +4,7 @@ readarray -td '' files < <(
 	find examples/jsm \
 		\( \
 		-path examples/jsm/libs -o \
-		-path examples/jsm/renderers/webgpu \
+		-path examples/jsm/loaders/ifc \
 		\) -prune -o \
 		-name "*.js" \
 		-print0
