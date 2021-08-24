@@ -3,8 +3,7 @@
 readarray -td '' files < <(
 	find examples/jsm \
 		\( \
-		-path examples/jsm/libs -o \
-		-path examples/jsm/loaders/ifc \
+		-path examples/jsm/libs \
 		\) -prune -o \
 		-name "*.js" \
 		-print0
@@ -13,6 +12,7 @@ readarray -td '' files < <(
 modules=("${files[@]/.*/}")
 for module in "${modules[@]}"; do
 	module_basename=${module//\//_}
+	module_basename=${module_basename//-/_}
 	echo "import * as m_$module_basename from \"three/$module\";"
 	echo "console.log(m_$module_basename);"
 	echo
