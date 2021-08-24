@@ -22,7 +22,7 @@
 	},
 	"dependencies": {
 		"acorn": "^8.4.1",
-		"acorn-walk": "^8.1.0",
+		"acorn-walk": "^8.1.1",
 		"glsl-tokenizer": "^2.1.5"
 	},
 	"publishConfig": {
