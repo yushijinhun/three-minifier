@@ -62,6 +62,24 @@ module.exports = {
 };
 ```
 
+### Next.js
+`next.config.js`:
+```js
+const ThreeMinifierPlugin = require("@yushijinhun/three-minifier-webpack");
+
+module.exports = {
+	webpack: (config, { isServer, dev }) => {
+		if (!isServer && !dev) {
+			config.cache = false;
+			const threeMinifier = new ThreeMinifierPlugin();
+			config.plugins.unshift(threeMinifier);
+			config.resolve.plugins.unshift(threeMinifier.resolver);
+		}
+		return config;
+	},
+};
+```
+
 ## FAQ
 ### Does it really work?
 Yes!
