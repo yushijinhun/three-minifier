@@ -1,7 +1,7 @@
 {
 	"name": "@yushijinhun/three-minifier-common",
 	"description": "util package for three-minifier",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"author": "Haowei Wen <yushijinhun@gmail.com> (https://github.com/yushijinhun)",
 	"homepage": "https://github.com/yushijinhun/three-minifier#readme",
 	"license": "MIT",
