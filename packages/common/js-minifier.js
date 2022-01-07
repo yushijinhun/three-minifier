@@ -12,6 +12,10 @@ function minifyJavascript(/**@type {string}*/code, /**@type {string}*/file) {
 	/**@type {{start:number,end:number,replacement:string}[]}*/
 	const replacements = [];
 	function replace(/**@type {acorn.Node}*/node, /**@type {string}*/replacement) {
+		if (node.start === node.end && replacement === "") {
+			// replace empty string with empty string
+			return;
+		}
 		replacements.push({
 			start: node.start,
 			end: node.end,
