@@ -5,8 +5,8 @@ exports.threeMinifier = () => {
 	return {
 		id: "threeMinifier",
 
-		async resolveId(moduleName, file) {
-			const origin = await this.resolve(moduleName, file, { skipSelf: true });
+		async resolveId(moduleName, file, options) {
+			const origin = await this.resolve(moduleName, file, { skipSelf: true, ...options });
 			if (origin) {
 				const transformedId = minifier.transformModule(origin.id);
 				if (transformedId === null) {
