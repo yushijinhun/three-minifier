@@ -84,48 +84,25 @@ module.exports = {
 };
 ```
 
-### Vite
-Most Rollup plugins [are compatible with Vite](https://vitejs.dev/guide/api-plugin.html#rollup-plugin-compatibility), including three-minifier.
+### Vite & SvelteKit
+Most Rollup plugins [are compatible with Vite](https://vitejs.dev/guide/api-plugin.html#rollup-plugin-compatibility), including three-minifier. [SvelteKit](https://kit.svelte.dev/) uses Vite as its build tool, so the setup is the same as for Vite.
 
 ```
 npm install --save-dev @yushijinhun/three-minifier-rollup
 ```
 
-`vite.config.js`:
+`vite.config.(js|ts)`:
 ```js
 import { defineConfig } from "vite";
 import { threeMinifier } from "@yushijinhun/three-minifier-rollup";
+// import { sveltekit } from '@sveltejs/kit/experimental/vite';
 
 export default defineConfig({
 	plugins: [
-		{ ...threeMinifier(), enforce: "pre" } // <=== Add plugin here
+		{ ...threeMinifier(), enforce: "pre" }, // <=== Add plugin here
+		// sveltekit(),
 	]
 });
-```
-
-### SvelteKit
-[SvelteKit](https://kit.svelte.dev/) uses Vite as its build tool, so the setup is similar to Vite.
-
-```
-npm install --save-dev @yushijinhun/three-minifier-rollup
-```
-
-`svelte.config.js`:
-```js
-import adapter from "@sveltejs/adapter-auto";
-import { threeMinifier } from "@yushijinhun/three-minifier-rollup";
-
-export default {
-	kit: {
-		adapter: adapter(),
-		target: "#svelte",
-		vite: {
-			plugins: [
-				{ ...threeMinifier(), enforce: "pre" } // <=== Add plugin here
-			]
-		}
-	}
-};
 ```
 
 ## FAQ
