@@ -9,5 +9,11 @@ module.exports = {
 	mode: "production",
 	performance: {
 		hints: false
+	},
+	resolve: {
+		alias: {
+			"three-addons": "three/examples/jsm",
+			"three-nodes": "three/examples/jsm/nodes"
+		}
 	}
 };

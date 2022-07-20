@@ -11,7 +11,8 @@
 		"glsl-minifier.js",
 		"js-minifier.js",
 		"util.js",
-		"glconstants.json"
+		"glconstants.json",
+		"options.d.ts"
 	],
 	"repository": {
 		"type": "git",

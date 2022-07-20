@@ -1,7 +1,9 @@
 const minifier = require("@yushijinhun/three-minifier-common");
 const MagicString = require("magic-string");
 
-exports.threeMinifier = () => {
+exports.threeMinifier = (minifierOptions = {}) => {
+	const resolveAdditionalModules = minifierOptions.resolveAdditionalModules !== false;
+
 	return {
 		id: "threeMinifier",
 
@@ -20,6 +22,13 @@ exports.threeMinifier = () => {
 						transformed.moduleSideEffects = false;
 					}
 					return transformed;
+				}
+			} else {
+				if (resolveAdditionalModules) {
+					const resolved = minifier.transformAdditionalModules(moduleName);
+					if (resolved !== null) {
+						return await this.resolve(resolved, file, { skipSelf: true, ...options });
+					}
 				}
 			}
 		},

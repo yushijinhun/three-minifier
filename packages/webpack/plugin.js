@@ -3,7 +3,9 @@ const minifier = require("@yushijinhun/three-minifier-common");
 const pluginName = "ThreeMinifierPlugin";
 
 class ThreeMinifierPlugin {
-	constructor() {
+	constructor(minifierOptions = {}) {
+		const resolveAdditionalModules = minifierOptions.resolveAdditionalModules !== false;
+
 		this.resolver = {};
 		this.resolver.apply = (resolver) => {
 			resolver
@@ -29,6 +31,23 @@ class ThreeMinifierPlugin {
 										this._clearSideEffects(callback)
 									);
 									return;
+								}
+							} else {
+								if (resolveAdditionalModules) {
+									const resolved = minifier.transformAdditionalModules(request.request);
+									if (resolved !== null) {
+										resolver.doResolve(
+											resolver.ensureHook("internal-resolve"),
+											{
+												...request,
+												request: resolved,
+											},
+											null,
+											resolveContext,
+											this._clearSideEffects(callback)
+										);
+										return;
+									}
 								}
 							}
 							this._clearSideEffects(callback)(error, result);

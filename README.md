@@ -12,6 +12,8 @@ This plugin helps projects who use THREE.js shrink their size by:
  * Replace WebGL constants with literals.
  * Minify GLSL files.
 
+This plugin also resolves `three-nodes` and `three-addons` modules.
+
 ## Requirements
  * node **>= v12.0**
  * three.js **>= r120**
@@ -132,9 +134,11 @@ Yes. This plugin solves [mrdoob/three.js#17482](https://github.com/mrdoob/three.
 
 You do not need to do any extra work to use examples jsm modules.
 ```javascript
-import { WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-// it works well
+// import { OrbitControls } from "three-addons/controls/OrbitControls"; // equivalent to the previous one
+
+import { NodeMaterial } from "three/examples/jsm/nodes/materials/Materials";
+// import { NodeMaterial } from "three-nodes/materials/Materials"; // equivalent to the previous one
 ```
 
 ### Will one day I no longer need this plugin?
@@ -148,6 +152,9 @@ However, THREE.js hasn't come up with a feasible solution so far. See [related i
  * [Allow tree-shaking by adding "sideEffects": false flag _mrdoob/three.js#16317_](https://github.com/mrdoob/three.js/pull/16317)
  * [Enable tree-shaking both for the main and examples files _mrdoob/three.js#16301_](https://github.com/mrdoob/three.js/pull/16301)
  * [Support esm on node with conditional exports _mrdoob/three.js#18498_](https://github.com/mrdoob/three.js/pull/18498)
+ * [Examples: add three/addons/* alias _mrdoob/three.js#23406_](https://github.com/mrdoob/three.js/pull/23406)
+ * [Avoid bare imports other than 'three' _mrdoob/three.js#23625_](https://github.com/mrdoob/three.js/issues/23625)
+ * [Add three/addons (for npm users only) _mrdoob/three.js#23368_](https://github.com/mrdoob/three.js/pull/23368)
  * [vxna/optimize-three-webpack-plugin](https://github.com/vxna/optimize-three-webpack-plugin)
  * [mattdesl/threejs-tree-shake](https://github.com/mattdesl/threejs-tree-shake)
 
