@@ -5,8 +5,8 @@ shopt -s extglob
 rm -rf {rollup,webpack}/{dist_control,dist_experimental,package-lock.json,node_modules}
 
 pack_package(){
-	pushd ../packages/$1 > /dev/null
-	local pack_path=$(realpath "$(npm pack)")
+	pushd ../packages > /dev/null
+	local pack_path=$(realpath "$(npm pack -w "@yushijinhun/three-minifier-$1")")
 	popd > /dev/null
 	cp "$pack_path" "package-$1.tgz"
 }

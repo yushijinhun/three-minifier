@@ -12,7 +12,9 @@
 		"url": "https://github.com/yushijinhun/three-minifier/issues"
 	},
 	"homepage": "https://github.com/yushijinhun/three-minifier#readme",
-	"devDependencies": {
-		"lerna": "^5.1.8"
-	}
+	"workspaces": [
+		"packages/common",
+		"packages/rollup",
+		"packages/webpack"
+	]
 }
