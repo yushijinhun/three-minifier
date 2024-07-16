@@ -1,19 +1,20 @@
 {
 	"name": "rollup-test",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"test:control": "npx rollup -c rollup.control.js",
 		"test:experimental": "npx rollup -c rollup.experimental.js"
 	},
 	"dependencies": {
+		"@rollup/plugin-terser": "^0.4.4",
 		"three": "^0.142.0"
 	},
 	"devDependencies": {
-		"@rollup/plugin-alias": "^3.1.9",
-		"@rollup/plugin-node-resolve": "^13.3.0",
+		"@rollup/plugin-alias": "^5.1.0",
+		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@yushijinhun/three-minifier-common": "file:../package-common.tgz",
 		"@yushijinhun/three-minifier-rollup": "file:../package-rollup.tgz",
-		"rollup": "^2.77.0",
-		"rollup-plugin-terser": "^7.0.2"
+		"rollup": "^4.18.1"
 	}
 }

@@ -1,2 +1,2 @@
-import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
+import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
 console.log(FXAAShader);

@@ -5,7 +5,7 @@
 	"types": "plugin.d.ts",
 	"dependencies": {
 		"@yushijinhun/three-minifier-common": "^0.4.0",
-		"magic-string": "^0.26.2"
+		"magic-string": "^0.30.10"
 	},
 	"files": [
 		"plugin.js",
