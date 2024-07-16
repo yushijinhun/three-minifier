@@ -13,7 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
-      - run: npx lerna bootstrap
       - run: './setup_test.sh ${{ matrix.component }}'
         working-directory: test
       - run: './run_test.sh all ${{ matrix.component }}'
